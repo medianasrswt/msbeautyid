@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/header') %>
+</head>
+
+<body>
+    <!-- *** TOPBAR ***
+ _________________________________________________________ -->
+    <%- include('../templates/toplist' , { path: '', userLoggedIn: userLoggedIn }) %>
+    <!-- *** TOP BAR END *** -->
+
+    <!-- *** NAVBAR ***
+ _________________________________________________________ -->
+
+    <%- include('../partials/navbar', { path: '' }) %>
+
+    <!-- /#navbar -->
+
+    <!-- *** NAVBAR END *** -->
+
+
+    <div id="all">
+
+        <div id="content">
+            <div class="container">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="/">Home</a>
+                        </li>
+                        <li>Shopping cart</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-9" id="basket">
+
+                    <div class="box">
+
+                       <form method="post" action="/checkout1">
+
+                            <h1>Shopping cart <%= idsc ? idsc : null %></h1>
+                            <p class="text-muted">You currently have 3 item(s) in your cart.</p>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">Product</th>
+                                            <th>Quantity</th>
+                                            <th>Unit price</th>
+                                            <th colspan="2">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% subTotal = 0;%>
+                                        <% for(let i = 0; i < items.length; i++) { %>
+                                            <%- include('../templates/scart-listitem', { item: items[i]}) %>
+                                            <% subTotal += parseInt(items[i].Harga_brg.substr(2, 7)) * 1000 %>
+                                        <% } %>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="4">Total</th>
+                                            <th colspan="2"><%= subTotal %></th>
+                                        </tr>
+                                    </tfoot> 
+                                </table>
+
+                            </div>
+                            <!-- /.table-responsive -->
+
+                            <div class="box-footer">
+                                <div class="pull-left">
+                                    <a href="/index" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
+                                </div>
+                                <div class="pull-right">
+                                    <button class="btn btn-default"><i class="fa fa-refresh"></i> Update basket</button>
+                                    <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                                <input name="total" type="hidden" value="<%= subTotal %>">
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <!-- /.box -->
+
+                    
+
+
+                </div>
+                <!-- /.col-md-9 -->
+
+                <div class="col-md-3">
+                    <div class="box" id="order-summary">
+                        <div class="box-header">
+                            <h3>Order summary</h3>
+                        </div>
+                        <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Order subtotal</td>
+                                        <th><%= subTotal %></th>
+                                    </tr>
+                                    <tr class="total">
+                                        <td>Total</td>
+                                        <th><%= subTotal %></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+                    
+                <!-- /.col-md-3 -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+
+        <!-- *** FOOTER ***
+ _________________________________________________________ -->
+         <div id="footer" data-animate="fadeInUp">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                    
+
+                        <hr>
+
+                        <h4>User section</h4>
+
+                        <ul>
+                            <li><a href="/#" data-toggle="modal" data-target="#login-modal">Login</a>
+                            </li>
+                            <li><a href="/register">Register</a>
+                            </li>
+                        </ul>
+
+                        <hr class="hidden-md hidden-lg hidden-sm">
+
+                    </div>
+                    <!-- /.col-md-3 -->
+
+                    
+                    <!-- /.col-md-3 -->
+
+                    <div class="col-md-3 col-sm-6">
+
+                        <h4>Where To Find Us</h4>
+
+                        <p><strong>MSBEAUTYID</strong>
+                            <br>Jl. Kelapa Dua No. 17 (MSBEAUTYID's Office)
+                            <br>Depok
+                            <br>Jawa Barat
+                            <br>
+                            <br>
+                            <strong>Indonesia</strong>
+                        </p>
+
+                         <h4>Contact Us</h4>
+
+                        <p><strong>MSBEAUTYID</strong>
+                            <br>Line : MSBEAUTYID
+                            <br>Phone : 085888919797
+                           
+                        </p>
+                        <a href="/contact">Go to contact page</a>
+
+                        <hr class="hidden-md hidden-lg">
+
+                    </div>
+                    <!-- /.col-md-3 -->
+
+
+
+                    <div class="col-md-3 col-sm-6">
+
+                       
+                            <!-- /input-group -->
+                        </form>
+
+                        <hr>
+
+                        <h4>Stay in touch</h4>
+
+                        <p class="social">
+                            <a href=https:www.facebook.com/medianasaraswati class="facebook external" data-animate-hover="shake"><i class="fa fa-facebook"></i></a>
+                            <a href=https:twitter.com/medianasrswt class="twitter external" data-animate-hover="shake"><i class="fa fa-twitter"></i></a>
+                            <a href=https:www.instagram.com/medianasaraswati class="instagram external" data-animate-hover="shake"><i class="fa fa-instagram"></i></a>
+                            
+                        </p>
+
+
+                    </div>
+                    <!-- /.col-md-3 -->
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#footer -->
+
+        <!-- *** FOOTER END *** -->
+
+
+
+
+        <!-- *** COPYRIGHT ***
+ _________________________________________________________ -->
+        <div id="copyright">
+            <div class="container">
+                <div class="col-md-6">
+                    <p class="pull-left">© 2018 MSBEAUTYID</p>
+
+                </div>
+                <div class="col-md-6">
+                    <p class="pull-right">Template by <a href="/https://bootstrapious.com/e-commerce-templates">Bootstrapious</a> & <a href="/https://fity.cz">Fity</a>
+                         <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- *** COPYRIGHT END *** -->
+
+
+
+    </div>
+    <!-- /#all -->
+
+   <!-- *** LOAD JS *** -->
+    <%- include('../partials/javascript') %>
+    <!-- *** LOAD JS *** -->
+    
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+    <div class="navbar navbar-default yamm" role="navigation" id="navbar">
+        <div class="container">
+            <div class="navbar-header">
+
+                <a class="navbar-brand home" href="/" data-animate-hover="bounce">
+                    <img src="/img/logoms.png" alt="MSBEAUTYID logo" class="hidden-xs">
+                    <img src="/img/logo-small.png" alt="MSBEAUTYID logo" class="visible-xs"><span class="sr-only">MSBEAUTYID - go to homepage </span>
+                </a>
+               <div class="navbar-buttons">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <i class="fa fa-align-justify"></i>
+                    </button>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                        <span class="sr-only">Toggle search</span>
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <a class="btn btn-default navbar-toggle" href="basket.html">
+                        <i class="fa fa-shopping-cart"></i>  <span class="hidden-xs">3 items in cart</span>
+                    </a>
+                </div>
+            </div>
+            <!-- .navbar-header -->
+
+            <div class="navbar-collapse collapse" id="navigation">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="<%= path == 'home' ? 'active' : null %>">
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="<%= path == 'makeup' ? 'active' : null %> dropdown yamm-fw">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">MAKE UP <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="yamm-content">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h5>Face</h5>
+                                            <ul>
+                                                <li><a href="/barang/makeup/face/foundation">Foundation</a>
+                                                </li>
+                                                <li><a href="/barang/makeup/face/blush">Blush</a>
+                                                </li>
+                                                <li><a href="/barang/makeup/face/bronzer">Bronzer</a>
+                                                </li>
+                                                <li><a href="/barang/makeup/face/concealer">Concealer</a>
+                                                </li>
+                                                <li><a href="/barang/makeup/face/loosepowder">Loose Powder</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h5>Eyes</h5>
+                                            <ul>
+                                                <li><a href="/barang/makeup/eyes/mascara">Mascara</a>
+                                                </li>
+                                                <li><a href="/barang/makeup/eyes/eyeshadow">Eyeshadow</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h5>Lips</h5>
+                                            <ul>
+                                                <li><a href="/barang/makeup/lips/lipstick">Lipstick</a>
+                                                </li>
+                                                <li><a href="/barang/makeup/lips/lipbalm">Lip Balm</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <!-- /.yamm-content -->
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="<%= path == 'skincare' ? 'active' : null %> dropdown yamm-fw">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">SKIN CARE <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="yamm-content">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h5>Cleanser</h5>
+                                            <ul>
+                                                <li><a href="/barang/skincare/cleanser/makeupremover">Makeup Remover</a>
+                                                </li>
+                                                
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <h5>Moisturizer</h5>
+                                            <ul>
+                                                <li><a href="/barang/skincare/moisturizer/moisturizer">Moisturizer</a>
+                                                </li>
+                                               
+                                            </ul>
+                                        </div>                                       
+                                    </div>
+                                </div>
+                                <!-- /.yamm-content -->
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+            
+                <div class="navbar-collapse collapse right" id="search-not-mobile">
+                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
+                        <span class="sr-only">Toggle search</span>
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="collapse clearfix" id="search">
+
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <span class="input-group-btn">
+
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+
+            </span>
+                    </div>
+                </form>
+
+            </div>
+
+            <!--/.nav-collapse -->
+        </div>
+        <!-- /.container -->
+    </div>

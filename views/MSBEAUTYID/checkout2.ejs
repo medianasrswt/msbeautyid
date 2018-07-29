@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/header') %>
+</head>
+
+<body>
+    <!-- *** TOPBAR ***
+ _________________________________________________________ -->
+    <%- include('../templates/toplist', { path: '', userLoggedIn: userLoggedIn }) %>
+    <!-- *** TOP BAR END *** -->
+
+    <!-- *** NAVBAR ***
+ _________________________________________________________ -->
+
+    <%- include('../partials/navbar', { path: ''}) %>
+
+    <!-- /#navbar -->
+
+    <!-- *** NAVBAR END *** -->
+    <div id="all">
+
+        <div id="content">
+            <div class="container">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="/">Home</a>
+                        </li>
+                        <li>Checkout - Delivery method</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-9" id="checkout">
+
+                    <div class="box">
+                        <form method="post" action="checkout3/">
+                            <h1>Checkout - Delivery method</h1>
+                            <ul class="nav nav-pills nav-justified">
+                                <li><a href="/checkout1"><i class="fa fa-map-marker"></i><br>Address</a>
+                                </li>
+                                <li class="active"><a href="/checkout2"><i class="fa fa-truck"></i><br>Delivery Method</a>
+                                </li>
+                                <li class="disabled"><a href="/checkout2"><i class="fa fa-money"></i><br>Payment Method</a>
+                                </li>
+                                <li class="disabled"><a href="/checkout3"><i class="fa fa-eye"></i><br>Order Review</a>
+                                </li>
+                            </ul>
+
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="box shipping-method">
+
+                                            <h4>JNE</h4>
+
+                                            <p>Regular</p>
+
+                                            <div class="box-footer text-center">
+
+                                                <input type="radio" name="delivery" value="delivery1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="col-sm-6">
+                              
+                                           
+
+                                               
+                                      
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+
+                            </div>
+                            <!-- /.content -->
+
+                            <div class="box-footer">
+                                <div class="pull-left">
+                                    <a href="/basket" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
+                                </div>
+                                <div class="pull-right">
+                                    <button type="submit" class="btn btn-primary">Continue to Payment Method<i class="fa fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+                <!-- /.col-md-9 -->
+
+                <div class="col-md-3">
+
+                    <div class="box" id="order-summary">
+                        <div class="box-header">
+                            <h3>Shipping Address</h3>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Alamat</td>
+                                        <th>jalan pondo ungu permai blok kk 4 no 6g, bekasi utara, 17125</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Handphone</td>
+                                        <th>0873xxxxx</th>
+                                    </tr>
+                                    <tr class="table">
+                                        <td>Total</td>
+                                        <th>Rp456.00</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.col-md-3 -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+
+        <!-- *** FOOTER ***
+ _________________________________________________________ -->
+       <div id="footer" data-animate="fadeInUp">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <h4>Pages</h4>
+
+                        <ul>
+                            <li><a href="/text/">About us</a>
+                            </li>
+                           
+                            <li><a href="/contact/">Contact us</a>
+                            </li>
+                        </ul>
+
+                        <hr>
+
+                        <h4>User section</h4>
+
+                        <ul>
+                            <li><a href="/#" data-toggle="modal" data-target="#login-modal">Login</a>
+                            </li>
+                            <li><a href="/register/">Register</a>
+                            </li>
+                        </ul>
+
+                        <hr class="hidden-md hidden-lg hidden-sm">
+
+                    </div>
+                    <!-- /.col-md-3 -->
+
+                    
+                    <!-- /.col-md-3 -->
+
+                    <div class="col-md-3 col-sm-6">
+
+                        <h4>Where To Find Us</h4>
+
+                        <p><strong>MSBEAUTYID</strong>
+                            <br>Jl. Kelapa Dua No. 17 (MSBEAUTYID's Office)
+                            <br>Depok
+                            <br>Jawa Barat
+                            <br>
+                            <br>
+                            <strong>Indonesia</strong>
+                        </p>
+
+                         <h4>Contact Us</h4>
+
+                        <p><strong>MSBEAUTYID</strong>
+                            <br>Line : MSBEAUTYID
+                            <br>Phone : 085888919797
+                           
+                        </p>
+                        <a href="/contact">Go to contact page</a>
+
+                        <hr class="hidden-md hidden-lg">
+
+                    </div>
+                    <!-- /.col-md-3 -->
+
+
+
+                    <div class="col-md-3 col-sm-6">
+
+                       
+                            <!-- /input-group -->
+                        </form>
+
+                        <hr>
+
+                        <h4>Stay in touch</h4>
+
+                        <p class="social">
+                            <a href=https:www.facebook.com/medianasaraswati class="facebook external" data-animate-hover="shake"><i class="fa fa-facebook"></i></a>
+                            <a href=https:twitter.com/medianasrswt class="twitter external" data-animate-hover="shake"><i class="fa fa-twitter"></i></a>
+                            <a href=https:www.instagram.com/medianasaraswati class="instagram external" data-animate-hover="shake"><i class="fa fa-instagram"></i></a>
+                            
+                        </p>
+
+
+                    </div>
+                    <!-- /.col-md-3 -->
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#footer -->
+
+        <!-- *** FOOTER END *** -->
+
+
+
+
+        <!-- *** COPYRIGHT ***
+ _________________________________________________________ -->
+        <div id="copyright">
+            <div class="container">
+                <div class="col-md-6">
+                    <p class="pull-left">© 2018 MSBEAUTYID</p>
+
+                </div>
+                <div class="col-md-6">
+                    <p class="pull-right">Template by <a href=https://bootstrapious.com/e-commerce-templates>Bootstrapious</a> & <a href=https://fity.cz>Fity</a>
+                         <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- *** COPYRIGHT END *** -->
+
+
+
+    </div>
+    <!-- /#all -->
+
+
+    
+ <!-- *** LOAD JS *** -->
+    <%- include('../partials/javascript') %>
+    <!-- *** LOAD JS *** -->
+
+
+
+</body>
+
+</html>

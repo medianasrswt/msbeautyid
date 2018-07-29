@@ -1,0 +1,66 @@
+<div class="row" id="productMain">
+    <div class="col-sm-6">
+        <div id="mainImage">
+            <img src="/img/barang/<%= jenis.gambar_brg %>/main.jpg" alt="" class="img-responsive">
+        </div>
+        <div class="ribbon new">
+            <% if(jenis.status != '-') { %>
+            <div class="theribbon"><%= jenis.status %></div>
+            <% } %>
+            <div class="ribbon-background"></div>
+        </div>
+        
+        <!-- /.ribbon -->
+
+        <!-- /.ribbon -->
+
+    </div>
+
+    <div class="col-sm-6">
+        <div class="box">
+            <h1 class="text-center"><%= jenis.Nama_brg %></h1>
+           
+            <p class="price"><%= jenis.Harga_brg %></p>
+                
+                <form action="/basket" method="post">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-shopping-cart"></i> Add to cart
+                    </button>
+                    <input type="hidden" name="nama" value=<%= jenis.Id_brg %> />
+                </form>
+                 
+            </p>
+
+
+        </div>
+
+        <div class="row" id="thumbs">
+             <% for(var i = 1; i <= 3; i++) { %>
+                <div class="col-xs-4">
+                    <a href="/img/barang/<%= jenis.gambar_brg %>/<%= i %>.jpg" class="thumb">
+                    <img src="/img/barang/<%= jenis.gambar_brg %>/<%= i %>.jpg" alt="" class="img-responsive">
+                    </a>
+                </div>
+             <% } %>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="box" id="details">
+        <blockquote>
+            <p><em><%= jenis.Detail_brg%></em>
+            </p>
+        </blockquote>
+
+        <hr>
+        <div class="social">
+            <h4>Show it to your friends</h4>
+            <p>
+                <a href="https://www.facebook.com/medianasaraswati" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
+                <a href="https://twitter.com/medianasrswt" class="external twitter" data-animate-hover="pulse"><i class="fa fa-twitter"></i></a>
+                <a href="https://www.instagram.com/msbeautyid/" class="instagram external" data-animate-hover="shake"><i class="fa fa-instagram"></i></a>
+            </p>
+        </div>
+</div>  

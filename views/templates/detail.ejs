@@ -1,0 +1,38 @@
+  <div class="col-md-3 col-sm-4">
+    <div class="product">
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                    <a href="/detail/<%= path %>">
+                        <img src="/img/barang/<%= barang.gambar_brg %>/main.jpg" alt="" class="img-responsive">
+                    </a>
+                </div>
+                <div class="back">
+                    <a href="/detail/<%= path %>">
+                        <img src="/img/barang/<%= barang.gambar_brg %>/main.jpg" alt="" class="img-responsive">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="ribbon new">
+            <% if(barang.status != '-') { %>
+            <div class="theribbon"><%= barang.status %></div>
+            <% } %>
+            <div class="ribbon-background"></div>
+        </div>
+        <a href="/detail/<%= path %>" class="invisible">
+            <img src="/img/tropical.jpg" alt="" class="img-responsive">
+        </a>
+        <div class="text">
+            <h3><a href="/detail/<%= path %>"> <%= barang.Shade == '-' ? barang.Nama_brg : barang.Shade %></a></h3>
+            <p class="price"><%= barang.Harga_brg %></p>
+            <p class="buttons">
+                <a href="/detail/<%= path %>" class="btn btn-default">View detail</a>
+                
+            </p>
+
+        </div>
+        <!-- /.text -->
+    </div>
+    <!-- /.product -->
+</div>

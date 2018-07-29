@@ -1,0 +1,35 @@
+<div class="item">
+    <div class="product">
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="front">
+                    <a href="/detail/<%= barang.gambar_brg %>">
+                        <img src="/img/barang/<%= barang.gambar_brg %>/main.jpg" alt="" class="img-responsive">
+                    </a>
+                </div>
+                <div class="back">
+                    <a href="/detail/<%= barang.gambar_brg %>">
+                        <img src="/img/barang/<%= barang.gambar_brg %>/main.jpg" alt="" class="img-responsive">
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <a href="/detail" class="invisible">
+            <img src="/img/tropical.jpg" alt="" class="img-responsive">
+        </a>
+        <div class="text">
+            <h3><a href="/detail/<%= barang.gambar_brg %>"><%= barang.Shade == '-' ? barang.Nama_brg : barang.Shade %></a></h3>
+            <p class="price"><%= barang.Harga_brg %></p>
+        </div>
+        <!-- /.text -->
+
+        <div class="ribbon new">
+            <% if(barang.status != '-') { %>
+            <div class="theribbon"><%= barang.status %></div>
+            <% } %>
+            <div class="ribbon-background"></div>
+        </div>
+    </div>
+    <!-- /.product -->
+</div>
