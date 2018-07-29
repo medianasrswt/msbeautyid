@@ -112,7 +112,7 @@ app.post('/basket', (req, res) => {
 			const randomId = [generateRandomNumber(6)]
 			connection.query(`insert into tb_scart values(${randomId[0]}, '${req.session.user.username}', 1, 10000)`, (err, result, fields) => {
 				if(err) throw err;
-				connection.query(`insert into tb_scartuser values('${randomId[0]}', '${req.body.nama}', 'satrioarbi', 1000)`, (err, result, fields) => {
+				connection.query(`insert into tb_scartuser values('${randomId[0]}', '${req.body.nama}', '${req.session.user.username}', 1000)`, (err, result, fields) => {
 					if(err) throw err;
 					if(!req.session.idcart) { 
 						req.session.idcart = randomId[0]
@@ -157,17 +157,17 @@ app.post('/checkout2', (req, res) => {
 	res.render('MSBEAUTYID/checkout2', { userLoggedIn: req.session.user})
 })
 app.post('/checkout3', (req, res) => {
-	res.render('MSBEAUTYID/checkout3')
+	res.render('MSBEAUTYID/checkout3', { userLoggedIn: req.session.user})
 })
 app.post('/checkout4', (req, res) => {
-	res.render('MSBEAUTYID/checkout4')
+	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user})
 })
 
 app.post('/update-password', (req, res) => {
 	res.redirect('/')
 })
 
-var shipping ={
+const shipping ={
 	"Jakarta" : "10000",
 	"Bali" : "24000",
 	"Surabaya" : "16000",
@@ -263,7 +263,10 @@ app.get('/detail/:jenis', (req, res) => {
 app.post('/register',  (req, res) => {
    let {username, nama, email, password, alamat, kelurahan, kecamatan, kodepos, kota, telpon} = req.body
    connection.query(`insert into tb_user(username, Nama, Email, Password, Alamat, Kelurahan, Kecamatan, Kode_pos, Kota, Telpon) 
-   		values('${username}','${nama}','${email}','${password}','${alamat}','${kelurahan}','${kecamatan}','${kodepos}','${kota}','${telpon}')`)
+   		values('${username}','${nama}','${email}','${password}','${alamat}','${kelurahan}','${kecamatan}','${kodepos}','${kota}','${telpon}')`, (err, result, fields) => {
+   			if(err) throw err
+   			res.redirect('/')
+   		})
 })
 
 app.post('/checkout1', (req, res) => {
@@ -271,16 +274,47 @@ app.post('/checkout1', (req, res) => {
 	let now = new Date()
 	let query = `insert into tb_pembayaran values(
 		'${randomId[0]}', 
-		'ngutang',
-		'${connection.escape(now)}',
+		${connection.escape(now)},
 		'pending',
 		'${req.session.user.username}',
 		'${req.body.total}',
-		'${req.session.idsc}')`
+		'${req.session.idcart}')`
 
 	connection.query(query, (err, result, fields) => {
 		if (err) throw err
-		res.render('msbeautyid/checkout1', { userloggedin: req.session.user })
+		const { Nama, Alamat, Kode_pos, Email, Telpon} = req.session.user
+		const dataUser = { Nama, Alamat, Kode_pos, Email, Telpon }
+		query =  `insert into tb_pengirim values(
+			'${randomId[0]}',
+			'${req.session.user.Nama}',
+			'${req.session.user.Alamat}',
+			'${req.session.user.Kode_pos}',
+			'${req.session.user.Email}',
+			'${req.session.user.Telpon}')`
+		connection.query(query, (err, result, fields) => {
+			if(err) throw err
+			if(!req.session.user.idtsc){
+				req.session.user.idtsc = randomId[0]
+			}		
+			res.render('msbeautyid/checkout1', { userLoggedIn: req.session.user, data: dataUser  }) 
+		})
+		
+	})
+})
+
+app.post('/update-checkout1', (req, res) => {
+	console.log(req.body)
+	let query =  `update tb_pengirim set
+		Nama = '${req.body.nama}',
+		Alamat = '${req.body.alamat}',
+		Kode_pos = '${req.body.kodepos}',
+		Email = '${req.body.email}',
+		Telpon = '${req.body.telpon}'
+		where Id_transaksi = '${req.session.user.idtsc}'`
+	console.log(query)
+	connection.query(query, (err, result, fields) => {
+		if(err) throw err
+		res.render('msbeautyid/checkout2', { userLoggedIn: req.session.user })
 	})
 })
 

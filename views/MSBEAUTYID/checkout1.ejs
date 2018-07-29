@@ -35,7 +35,7 @@
                 <div class="col-md-9" id="checkout">
 
                     <div class="box">
-                        <form method="post" action="/checkout1">
+                        <form method="post" action="/update-checkout1">
                             <h1>Checkout</h1>
                             <ul class="nav nav-pills nav-justified">
                                 <li class="active"><a href="/"><i class="fa fa-map-marker"></i><br>Address</a>
@@ -53,7 +53,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="firstname">Nama</label>
-                                            <input type="text" class="form-control" id="firstname" name="nama">
+                                            <input type="text" value="<%= data.Nama %>" class="form-control" id="firstname" name="nama">
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="company">Email</label>
-                                            <input type="text" class="form-control" id="company" name="Email">
+                                            <input type="text" value="<%= data.Email%>" class="form-control" id="company" name="email">
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group">
                                             <label for="company">Alamat</label>
-                                            <input type="text" class="form-control" id="company" name="alamat">
+                                            <input type="text" value="<%= data.Alamat%>" class="form-control" id="company" name="alamat">
                                         </div>
                                     </div>
                                 </div>
@@ -80,13 +80,13 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="company">Kode Pos</label>
-                                            <input type="text" class="form-control" id="company" name="kodepos">
+                                            <input type="text" value="<%= data.Kode_pos %>" class="form-control" id="company" name="kodepos">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="street">Nomor Handphone</label>
-                                            <input type="text" class="form-control" id="street" name="telpon">
+                                            <input type="text" value="<%= data.Telpon%>" class="form-control" id="street" name="telpon">
                                         </div>
                                     </div>
                                 </div>
