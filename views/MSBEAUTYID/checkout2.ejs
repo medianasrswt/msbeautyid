@@ -35,7 +35,7 @@
                 <div class="col-md-9" id="checkout">
 
                     <div class="box">
-                        <form method="post" action="checkout3/">
+                        <form method="post" action="/update-checkout2">
                             <h1>Checkout - Delivery method</h1>
                             <ul class="nav nav-pills nav-justified">
                                 <li><a href="/checkout1"><i class="fa fa-map-marker"></i><br>Address</a>
@@ -52,21 +52,38 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="box shipping-method">
-
                                             <h4>JNE</h4>
 
                                             <p>Regular</p>
 
                                             <div class="box-footer text-center">
 
-                                                <input type="radio" name="delivery" value="delivery1">
+                                                <input type="radio" name="perusahaan" value="jne" checked>
                                             </div>
                                         </div>
                                     </div>
                                     
 
                                     <div class="col-sm-6">
-                              
+                                    <div class="control-group">
+                                            <h4><label class="control-label" for="basicinput">Pilih Kota Tujuan</label><h4> 
+                                            <div class="controls">
+                                                <div class="dropdown">
+                                                    
+                                                    <select class="dropdown-toggle" name="kota" >
+                                                        <option value="Bandung">Bandung</option>
+                                                        <option value="Bekasi">Bekasi</option>
+                                                        <option value="Batam">Batam</option>
+                                                        <option value="Denpasar">Denpasar</option>
+                                                        <option value="Depok">Depok</option>
+                                                        <option value="Jakarta">Jakarta</option>
+                                                        <option value="Malang">Malang</option>
+                                                        <option value="Surabaya">Surabaya</option>
+                                                        <option value="Yogyakarta">Yogyakarta</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                            
 
                                                
@@ -112,6 +129,10 @@
                                     <tr>
                                         <td>Nomor Handphone</td>
                                         <th>0873xxxxx</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Biaya Pengiriman</td>
+                                        <th>10.000</th>
                                     </tr>
                                     <tr class="table">
                                         <td>Total</td>

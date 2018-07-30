@@ -69,7 +69,7 @@ app.post('/login', (req, res) => {
   );
 });
 
-// bukan disitu med
+
 app.get('/customer-account',  checkAuth,  (req, res) => {
 	if(req.session.user) {
 		res.render('MSBEAUTYID/customer-account',{ userLoggedIn: req.session.user})
@@ -82,9 +82,14 @@ app.get('/claim', (req, res) => {
 })
 
 app.get('/contact', (req, res) => {
-	res.render('MSBEAUTYID/contact')
+	res.render('MSBEAUTYID/contact',{ userLoggedIn: req.session.user})
 })
-
+app.get('/contact', (req, res) => {
+	res.render('MSBEAUTYID/register',{ userLoggedIn: req.session.user})
+})
+app.get('/index', checkAuth, (req, res) => {
+	res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
+})
 app.get('/basket', checkAuth, (req, res) => {
  	res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
 })
@@ -132,8 +137,6 @@ app.post('/basket', (req, res) => {
 	}
 })
 
-//bnr kan itu yg diapus hooh
-
 app.get('/register', (req, res) => {
 	res.render('MSBEAUTYID/register', { userLoggedIn: req.session.user})
 })
@@ -168,9 +171,15 @@ app.post('/update-password', (req, res) => {
 })
 
 const shipping ={
-	"Jakarta" : "10000",
-	"Bali" : "24000",
-	"Surabaya" : "16000",
+	"Bandung"	: "10000",
+	"Bekasi"	: "10000",
+	"Batam"		: "28000",	
+	"Denpasar"	: "22000",
+	"Depok"		: "10000",
+	"Jakarta"	: "10000",
+	"Malang"	: "26000",
+	"Surabaya"	: "16000",
+	"Yogyakarta": "18000",
 }
 
 var descriptions = {
@@ -279,7 +288,7 @@ app.post('/checkout1', (req, res) => {
 		'${req.session.user.username}',
 		'${req.body.total}',
 		'${req.session.idcart}')`
-
+	req.session.user.totalBelanja = req.body.total	
 	connection.query(query, (err, result, fields) => {
 		if (err) throw err
 		const { Nama, Alamat, Kode_pos, Email, Telpon} = req.session.user
@@ -317,7 +326,17 @@ app.post('/update-checkout1', (req, res) => {
 		res.render('msbeautyid/checkout2', { userLoggedIn: req.session.user })
 	})
 })
+app.post('/update-checkout2', (req, res) => {
+ let grandTotal = parseInt(req.session.user.totalBelanja) + parseInt(shipping[req.body.kota])
+ let query = `update tb_pembayaran set
+   Total_harga = '${grandTotal}' where Id_transaksi =${req.session.user.idtsc}`
+console.log(query)
+  connection.query(query, (err, result, fields) => {
+		if(err) throw err
+		res.render('msbeautyid/checkout3', { userLoggedIn: req.session.user })
+	})
 
+})
 app.listen(PORT, () => {
 	console.log('listening on http://localhost:' + PORT)
 })
