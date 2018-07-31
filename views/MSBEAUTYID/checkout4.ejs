@@ -34,7 +34,7 @@
                 <div class="col-md-9" id="checkout">
 
                     <div class="box">
-                        <form method="post" action="checkout4">
+                        <form method="post" action="/checkout4">
                             <h1>Checkout - Order review</h1>
                             <ul class="nav nav-pills nav-justified">
                                 <li><a href="/checkout1"><i class="fa fa-map-marker"></i><br>Address</a>
@@ -55,42 +55,20 @@
                                                 <th colspan="2">Product</th>
                                                 <th>Quantity</th>
                                                 <th>Unit price</th>
-                                                <th>Discount</th>
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <a href="/#">
-                                                        <img src="/img/detailsquare.jpg" alt="White Blouse Armani">
-                                                    </a>
-                                                </td>
-                                                <td><a href="/#">White Blouse Armani</a>
-                                                </td>
-                                                <td>2</td>
-                                                <td>$123.00</td>
-                                                <td>$0.00</td>
-                                                <td>$246.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <a href="/#">
-                                                        <img src="/img/basketsquare.jpg" alt="Black Blouse Armani">
-                                                    </a>
-                                                </td>
-                                                <td><a href="/#">Black Blouse Armani</a>
-                                                </td>
-                                                <td>1</td>
-                                                <td>$200.00</td>
-                                                <td>$0.00</td>
-                                                <td>$200.00</td>
-                                            </tr>
+                                            <% subTotal = 0; %>
+                                            <% for(let i = 0; i < items.length; i++) { %>
+                                                <%- include('../templates/scart-review', { item: items[i], jumlah_brg: scartViewItems[i].Jumlah_brg }) %>
+                                                <% subTotal += parseInt(items[i].Harga_brg.substr(2, 7)) * 1000 %>
+                                            <% } %>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th colspan="5">Total</th>
-                                                <th>$446.00</th>
+                                                <th><%= subTotal %></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -126,25 +104,44 @@
                       
                         <div class="table-responsive">
                             <table class="table">
-                                <tbody>
+                              <tbody>
                                     <tr>
                                         <td>Nama</td>
-                                        <th>$446.00</th>
+                                        <th><%= userLoggedIn.Nama %></th>
                                     </tr>
                                     <tr>
-                                        <td>Address</td>
-                                        <th>$10.00</th>
+                                        <td>Alamat</td>
+                                        <th><%= userLoggedIn.tujuan %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kelurahan</td>
+                                        <th><%= userLoggedIn.Kelurahan %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kecamatan</td>
+                                        <th><%= userLoggedIn.Kecamatan %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kota</td>
+                                        <th><%= userLoggedIn.Kota %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kode Pos</td>
+                                        <th><%= userLoggedIn.Kode_pos %></th>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
-
+                        <% if (pymntMthd != 'cash') { %>
+                            <p class="text-muted">Please kindly transfer the total amount to: </p>
+                            <p> BCA A.N Mediana Saraswati </p>
+                            <p> AC# 52-10-36-58-44</p>
+                       <% } else { %>
+                            <p class="text-muted">Please kindly pay when you get the product.</p>
+                        <% } %>
                     </div>
-
                 </div>
                 <!-- /.col-md-3 -->
-
             </div>
             <!-- /.container -->
         </div>
@@ -160,8 +157,7 @@
                         <h4>Pages</h4>
 
                         <ul>
-                            <li><a href="/text">About us</a>
-                            </li>
+                           
                          
                             <li><a href="/contact">Contact us</a>
                             </li>

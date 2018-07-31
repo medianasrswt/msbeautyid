@@ -1,0 +1,19 @@
+<tr>
+    <td>
+        <a href="/#">
+            <img src="/img/barang/<%= item.gambar_brg %>/scart.jpg" alt="<%= item.Nama_brg %>">
+        </a>
+    </td>
+    <td>
+        <a href="/#"><%= item.Nama_brg + ' ' + item.Shade %></a>
+    </td>
+    <td>
+        <%= jumlah_brg %>
+    </td>
+    <td>
+        <%= item.Harga_brg.length > 11 ? `Rp${parseInt(item.Harga_brg.substr(2, 7)) * 1000}` : `Rp${parseInt(item.Harga_brg.substr(2, 6)) * 1000}` %>
+    </td>
+    <td>
+        <%= item.Harga_brg.length > 11 ? `Rp${parseInt(item.Harga_brg.substr(2, 7)) * 1000 * parseInt(jumlah_brg) }` : `Rp${parseInt(item.Harga_brg.substr(2, 6)) * 1000 * parseInt(jumlah_brg) }` %>        
+    </td>
+</tr>      

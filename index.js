@@ -1,10 +1,11 @@
 const express = require('express')
-const app = express()
 const bodyParser = require('body-parser')
 const session = require('express-session')
-const PORT = '3000'
+const multer = require('multer');
+const path = require('path');
+const mysql = require('mysql');
+const PORT = 3000
 
-const mysql      = require('mysql');
 const connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -12,10 +13,22 @@ const connection = mysql.createConnection({
   database : 'restore_msbid'
 });
 
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './');
+  },
+  filename: function(req, file, cb) {
+    console.log(file);
+    cb(null, file.originalnacheme); 
+  },
+});
+const upload = multer({ storage: storage });
+const app = express()
+
 app.set('view engine', 'ejs')
 
 app.use(bodyParser())
-// app.use(express.static('views/adminn'))
+app.use(express.static('views/adminn'))
 app.use(express.static('views/static'))
 app.use(session({ name: 'ketek', secret: 'ms', resave: false, cookie: { maxAge: 600000}}))
 
@@ -30,19 +43,19 @@ const checkAuth = (req, res, next) => {
 
 const generateRandomNumber = (length) => parseInt(Math.random().toString(10).substr(4, length))
 
+app.get('/admin', (req, res) => {
+	res.render('adminn/index')
+})
+
 app.get('/', (req, res) => {
 	connection.query('select * from tb_barang group by Jenis', (err, result, fields) => {
 		if (err) throw err
-
 		if(req.session.user) {
 			res.render('MSBEAUTYID/index', { barang: result, path: 'home', userLoggedIn: req.session.user })
 		} else {
 			res.render('MSBEAUTYID/index', { barang: result, path: 'home', userLoggedIn: req.session.user })
 		}
-
-	})
-	
-	
+	})	
 })
 
 app.get('/logout', (req, res) => {
@@ -78,7 +91,7 @@ app.get('/customer-account',  checkAuth,  (req, res) => {
 
 
 app.get('/claim', (req, res) => {
-	res.send(req.session.user)
+	res.send(req.session)
 })
 
 app.get('/contact', (req, res) => {
@@ -152,23 +165,55 @@ app.post('/checkout2', (req, res) => {
 	res.render('MSBEAUTYID/checkout2', { userLoggedIn: req.session.user})
 })
 
-app.get('/checkout3', checkAuth, (req, res) => {
-	res.render('MSBEAUTYID/checkout3', { userLoggedIn: req.session.user })
-})
+
 app.post('/checkout3', (req, res) => {
-  console.log(req.body.pembayaran)
-req.session.user.pymntMthd = req.body.pembayaran
- res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
+	let { username } = req.session.user
+	let { idcart } = req.session
+	let query = `select count(*) Jumlah_brg, Id_brg  from tb_scartuser 
+		where id_shopping_cart = '${idcart}' group by Id_brg`
+	console.log(query)	
+	connection.query(query, (err, result, fields)=> {
+		if (err) throw err
+		
+		let itemsInBasket = result.map(item => item.Id_brg)
+		let scartViewItems = result.map(item => item)
+
+		console.log("barang", scartViewItems)
+		connection.query(`select * from tb_barang where Id_brg in (?)`, [itemsInBasket], (err, result, fields) => {
+			if (err) throw err;
+			res.render('MSBEAUTYID/checkout4', { 
+				idsc: req.session.idcart, 
+				items: result, 
+				userLoggedIn: req.session.user, 
+				pymntMthd: req.body.pembayaran,
+				scartViewItems: scartViewItems
+			})
+		})		
+	})
 })
-app.get('/checkout4', checkAuth, (req, res) => {
-	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
-})
+
 app.post('/checkout4', (req, res) => {
-	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user})
+ res.render('MSBEAUTYID/finish-order', { userLoggedIn: req.session.user})
 })
+
+const tes = multer().single('tfImage')
+app.post('/upload-tf', upload.single('tfImage'), (req, res) => {
+	tes(req, res, function (err) {
+	    if (err) {
+	      console.log(err)
+	      return
+	    }
+	})
+	console.log(req.body)
+  	res.redirect('/');
+});
 
 app.post('/update-password', (req, res) => {
 	res.redirect('/')
+})
+
+app.get('/finish-order', checkAuth, (req, res) => {
+	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
 })
 
 const shipping ={
@@ -288,6 +333,7 @@ app.post('/checkout1', (req, res) => {
 		'pending',
 		'${req.session.user.username}',
 		'${req.body.total}',
+		'belom trf',
 		'${req.session.idcart}')`
 	req.session.user.totalBelanja = req.body.total	
 	connection.query(query, (err, result, fields) => {
@@ -313,7 +359,6 @@ app.post('/checkout1', (req, res) => {
 })
 
 app.post('/update-checkout1', (req, res) => {
-	console.log(req.body)
 	let query =  `update tb_pengirim set
 		Nama = '${req.body.nama}',
 		Alamat = '${req.body.alamat}',
@@ -321,7 +366,7 @@ app.post('/update-checkout1', (req, res) => {
 		Email = '${req.body.email}',
 		Telpon = '${req.body.telpon}'
 		where Id_transaksi = '${req.session.user.idtsc}'`
-	console.log(query)
+	req.session.user.tujuan = req.body.alamat	
 	connection.query(query, (err, result, fields) => {
 		if(err) throw err
 		res.render('msbeautyid/checkout2', { userLoggedIn: req.session.user })
@@ -331,13 +376,14 @@ app.post('/update-checkout2', (req, res) => {
  let grandTotal = parseInt(req.session.user.totalBelanja) + parseInt(shipping[req.body.kota])
  let query = `update tb_pembayaran set
    Total_harga = '${grandTotal}' where Id_transaksi =${req.session.user.idtsc}`
-console.log(query)
   connection.query(query, (err, result, fields) => {
 		if(err) throw err
+		req.session.user.grandTotal = grandTotal;
 		res.render('msbeautyid/checkout3', { userLoggedIn: req.session.user })
 	})
 
 })
+
 app.listen(PORT, () => {
 	console.log('listening on http://localhost:' + PORT)
 })

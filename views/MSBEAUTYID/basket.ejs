@@ -52,7 +52,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% subTotal = 0;%>
+                                        <% subTotal = 0; %>
                                         <% for(let i = 0; i < items.length; i++) { %>
                                             <%- include('../templates/scart-listitem', { item: items[i]}) %>
                                             <% subTotal += parseInt(items[i].Harga_brg.substr(2, 7)) * 1000 %>

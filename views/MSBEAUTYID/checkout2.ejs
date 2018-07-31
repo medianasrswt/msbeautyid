@@ -121,22 +121,38 @@
 
                         <div class="table-responsive">
                             <table class="table">
-                                <tbody>
+                                  <tbody>
+                                    <tr>
+                                        <td>Nama</td>
+                                        <th><%= userLoggedIn.Nama %></th>
+                                    </tr>
                                     <tr>
                                         <td>Alamat</td>
-                                        <th>jalan pondo ungu permai blok kk 4 no 6g, bekasi utara, 17125</th>
+                                        <th><%= userLoggedIn.tujuan %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kelurahan</td>
+                                        <th><%= userLoggedIn.Kelurahan %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kecamatan</td>
+                                        <th><%= userLoggedIn.Kecamatan %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kota</td>
+                                        <th><%= userLoggedIn.Kota %></th>
+                                    </tr>
+                                     <tr>
+                                        <td>Kode Pos</td>
+                                        <th><%= userLoggedIn.Kode_pos %></th>
                                     </tr>
                                     <tr>
                                         <td>Nomor Handphone</td>
-                                        <th>0873xxxxx</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Biaya Pengiriman</td>
-                                        <th>10.000</th>
+                                        <th><%= userLoggedIn.Telpon %></th>
                                     </tr>
                                     <tr class="table">
                                         <td>Total</td>
-                                        <th>Rp456.00</th>
+                                        <th><%= subTotal %></th>
                                     </tr>
                                 </tbody>
                             </table>
