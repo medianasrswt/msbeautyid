@@ -87,9 +87,6 @@ app.get('/contact', (req, res) => {
 app.get('/contact', (req, res) => {
 	res.render('MSBEAUTYID/register',{ userLoggedIn: req.session.user})
 })
-app.get('/index', checkAuth, (req, res) => {
-	res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
-})
 app.get('/basket', checkAuth, (req, res) => {
  	res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
 })
@@ -140,6 +137,9 @@ app.post('/basket', (req, res) => {
 app.get('/register', (req, res) => {
 	res.render('MSBEAUTYID/register', { userLoggedIn: req.session.user})
 })
+app.get('/payment-confirmation', (req, res) => {
+	res.render('MSBEAUTYID/payment-confirmation', { userLoggedIn: req.session.user})
+})
 
 app.get('/checkout1', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/checkout1', { userLoggedIn: req.session.user})
@@ -148,19 +148,20 @@ app.get('/checkout1', checkAuth, (req, res) => {
 app.get('/checkout2', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/checkout2', { userLoggedIn: req.session.user })
 })
-app.get('/checkout3', checkAuth, (req, res) => {
-	res.render('MSBEAUTYID/checkout3', { userLoggedIn: req.session.user })
-})
-app.get('/checkout4', checkAuth, (req, res) => {
-	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
-})
-
-
 app.post('/checkout2', (req, res) => {
 	res.render('MSBEAUTYID/checkout2', { userLoggedIn: req.session.user})
 })
+
+app.get('/checkout3', checkAuth, (req, res) => {
+	res.render('MSBEAUTYID/checkout3', { userLoggedIn: req.session.user })
+})
 app.post('/checkout3', (req, res) => {
-	res.render('MSBEAUTYID/checkout3', { userLoggedIn: req.session.user})
+  console.log(req.body.pembayaran)
+req.session.user.pymntMthd = req.body.pembayaran
+ res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
+})
+app.get('/checkout4', checkAuth, (req, res) => {
+	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
 })
 app.post('/checkout4', (req, res) => {
 	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user})
