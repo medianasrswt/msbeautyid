@@ -7,7 +7,7 @@
 <body>
     <!-- *** TOPBAR ***
  _________________________________________________________ -->
-    <%- include('../templates/toplist') %>
+    <%- include('../templates/toplist' , { path: '', userLoggedIn: userLoggedIn }) %>
     <!-- *** TOP BAR END *** -->
 
     <!-- *** NAVBAR ***
@@ -67,8 +67,8 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th colspan="5">Total</th>
-                                                <th><%= subTotal %></th>
+                                                <th colspan="4">Total</th>
+                                                <th colspan="2"><%= subTotal %></th>
                                             </tr>
                                         </tfoot>
                                     </table>

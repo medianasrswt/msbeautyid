@@ -44,9 +44,51 @@ const checkAuth = (req, res, next) => {
 const generateRandomNumber = (length) => parseInt(Math.random().toString(10).substr(4, length))
 
 app.get('/admin', (req, res) => {
-	res.render('adminn/index')
+	res.render('adminn/pesanan')
+})
+app.get('/admin/datatable', (req, res) => { 
+	connection.query('select * from tb_barang', (err, result, fields) => {
+		if (err) throw err
+		console.log(result)
+		res.render('adminn/datatable', { 
+			items: result
+		})
+	})
 })
 
+app.get('/admin/user', (req, res) => {
+	res.render('adminn/user')
+}) 	
+app.get('/admin/login', (req, res) => {
+	res.render('adminn/login')
+}) 	
+app.get('/admin/pesanan', (req, res) => {
+	res.render('adminn/pesanan')
+}) 	
+app.get('/admin/formbrg', (req, res) => {
+	res.render('adminn/formbrg')
+})
+app.post('/admin/formbrg',  (req, res) => {
+   let {idbarang, kategori, namabarang, jenis, stockbarang, shade, hargabrg, desbrg, detailbrg, gambar, status} = req.body
+  console.log(req.body)
+    let query = `insert into tb_barang values(
+		'${idbarang}', 
+		'${kategori}',
+		'${namabarang}',
+		'${jenis}',
+		'${stockbarang}',
+		'${shade}',
+		'${hargabrg}',
+		'${desbrg}',
+		'${detailbrg}',
+		'${gambar}',
+		'${status}')`
+		console.log(query)
+   	connection.query(query, (err, result, fields)=> {
+		if (err) throw err
+   			res.redirect('/admin')
+   		})
+})
 app.get('/', (req, res) => {
 	connection.query('select * from tb_barang group by Jenis', (err, result, fields) => {
 		if (err) throw err
@@ -150,7 +192,7 @@ app.post('/basket', (req, res) => {
 app.get('/register', (req, res) => {
 	res.render('MSBEAUTYID/register', { userLoggedIn: req.session.user})
 })
-app.get('/payment-confirmation', (req, res) => {
+app.get('/payment-confirmation', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/payment-confirmation', { userLoggedIn: req.session.user})
 })
 

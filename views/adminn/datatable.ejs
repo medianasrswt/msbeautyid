@@ -4,12 +4,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>MSBEAUTYID</title>
-	<link type="text/css" href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link type="text/css" href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-	<link type="text/css" href="css/theme.css" rel="stylesheet">
-	<link type="text/css" href="images/icons/css/font-awesome.css" rel="stylesheet">
+	<link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link type="text/css" href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link type="text/css" href="/css/theme.css" rel="stylesheet">
+	<link type="text/css" href="/images/icons/css/font-awesome.css" rel="stylesheet">
 	<link type="text/css" href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600' rel='stylesheet'>
-	<link rel="icon" type="image/png" href="icon.png">
+	<link rel="icon" type="image/png" href="/icon.png">
 </head>
 <body>
 
@@ -20,21 +20,11 @@
 					<i class="icon-reorder shaded"></i>
 				</a>
 
-			  	<a class="brand" href="index.ejs">
+			  	<a class="brand" href="/admin">
 			  		MSBEAUTYID
 			  	</a>
 
 				<div class="nav-collapse collapse navbar-inverse-collapse">
-					<ul class="nav nav-icons">
-						<li class="active"><a href="#">
-							<i class="icon-envelope"></i>
-						</a></li>
-						<li><a href="#">
-							<i class="icon-eye-open"></i>
-						</a></li>
-						
-					</ul>
-
 					
 				
 					<ul class="nav pull-right">
@@ -42,14 +32,11 @@
 						
 						<li class="nav-user dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img src="images/admin.jpg" class="nav-avatar" />
+								<img src="/images/admin.jpg" class="nav-avatar" />
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="#">Your Profile</a></li>
-								<li><a href="#">Edit Profile</a></li>
-								<li><a href="#">Account Settings</a></li>
-								<li class="divider"></li>
 								<li><a href="#">Logout</a></li>
 							</ul>
 						</li>
@@ -68,16 +55,8 @@
 					<div class="sidebar">
 
 						<ul class="widget widget-menu unstyled">
-							<li class="active">
-								<a href="index.ejs">
-									<i class="menu-icon icon-dashboard"></i>
-									Dashboard
-								</a>
-							</li>
-							
-							
 							<li>
-								<a href="task.ejs">
+								<a href="/admin/pesanan">
 									<i class="menu-icon icon-tasks"></i>
 									Pesanan
 									<b class="label orange pull-right">19</b>
@@ -87,8 +66,8 @@
 
 						<ul class="widget widget-menu unstyled">
                                 
-                                <li><a href="form.ejs"><i class="menu-icon icon-paste"></i>Forms </a></li>
-                                <li><a href="table.ejs"><i class="menu-icon icon-table"></i>Daftar Barang </a></li>
+                                <li><a href="/admin/formbrg"><i class="menu-icon icon-paste"></i>Forms </a></li>
+                                <li><a href="/admin/datatable"><i class="menu-icon icon-table"></i>Daftar Barang </a></li>
                                 
                             </ul><!--/.widget-nav-->
 
@@ -101,23 +80,19 @@
 								</a>
 								<ul id="togglePages" class="collapse unstyled">
 									<li>
-										<a href="other-login.ejs">
+										<a href="/admin/login">
 											<i class="icon-inbox"></i>
 											Login
 										</a>
 									</li>
 									<li>
-										<a href="other-user-profile.ejs">
+										<a href="/admin/user">
 											<i class="icon-inbox"></i>
 											Profile
 										</a>
 									</li>
 									<li>
-										<a href="other-user-listing.ejs">
-											<i class="icon-inbox"></i>
-											All Users
-										</a>
-									</li>
+
 								</ul>
 							</li>
 							
@@ -158,42 +133,15 @@
 											<th>deskripsi barang</th>
 											<th>detail barang</th>
 											<th>gambar</th>
+											<th>status</th>
 
 										</tr>
 									</thead>
-									<tbody>
-										<tr class="odd gradeX">
-											<td>Trident</td>
-											<td>Internet
-												 Explorer 4.0</td>
-											<td>Win 95+</td>
-											<td class="center"> 4</td>
-											<td class="center">X</td>
-											<td>Knotty</td>
-											<td>Rp 150.000</td>
-											<td>tes</td>
-											<td>tes</td>
-											<td><img src="images/4g.jpg"></td>
-										</tr>
-										<tr class="even gradeC">
-											<td>Trident</td>
-											<td>Internet
-												 Explorer 5.0</td>
-											<td>Win 95+</td>
-											<td class="center">5</td>
-											<td class="center">C</td>
-											<td>Knotty</td>
-											<td>Rp 150.000</td>
-											<td>tes</td>
-											<td>tes</td>
-											<td><img src="images/benefitg.jpg"></td>
-										</tr>
-										
-									</tbody>
-									
+									 <%- include('../template/list-data') %>
 								</table>
 							</div>
-						</div><!--/.module-->
+						</div>
+						<!--/.module-->
 
 					<br />
 						
@@ -211,10 +159,10 @@
 		</div>
 	</div>
 
-	<script src="scripts/jquery-1.9.1.min.js"></script>
-	<script src="scripts/jquery-ui-1.10.1.custom.min.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="scripts/datatables/jquery.dataTables.js"></script>
+	<script src="/scripts/jquery-1.9.1.min.js"></script>
+	<script src="/scripts/jquery-ui-1.10.1.custom.min.js"></script>
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/scripts/datatables/jquery.dataTables.js"></script>
 	<script>
 		$(document).ready(function() {
 			$('.datatable-1').dataTable();
