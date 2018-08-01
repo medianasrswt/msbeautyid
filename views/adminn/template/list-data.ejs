@@ -1,16 +1,13 @@
-<tbody>
 	<tr class="odd gradeX">
-		<td><%= items.Id_brg %></td>
-		<td>Internet
-			 Explorer 4.0</td>
-		<td>Win 95+</td>
-		<td class="center"> 4</td>
-		<td class="center">X</td>
-		<td>Knotty</td>
-		<td>Rp 150.000</td>
-		<td>tes</td>
-		<td>tes</td>
-		<td><img src="/images/4g.jpg"></td>
-		<td>tes</td>
+		<td><%= item.Id_brg %></td>
+		<td><%= item.Kategori %></td>
+		<td><%= item.Nama_brg %></td>
+		<td class="center"><%= item.Jenis%></td>
+		<td class="center"><%= item.Stok_brg%></td>
+		<td><%= item.Shade%></td>
+		<td><%= item.Harga_brg%></td>
+		<td><%= item.Deskripsi_brg%></td>
+		<td><img src="/img/barang/<%= item.gambar_brg %>/main.jpg" </td>
+		<td><%= item.status %></td>
 	</tr>
-</tbody>
+

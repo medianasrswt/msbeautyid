@@ -1,0 +1,13 @@
+<tr class="task">
+ <td class="cell-icon"><i class="icon-checker high"></i></td>
+ <td class="cell-align-left"><div><%= item.id_transaksi %></div></td>
+ <td class="cell-align-left"><div><%= item.username %></div></td>
+ <td class="cell-align-left"><div><%= item.Total_harga %></div></td>
+ <td class="cell-status hidden-phone hidden-tablet">
+    <form action ="/admin/update/status" method="post">
+     <button type="submit" class="btn"><b class="due"><%= item.Status_brg %></b></button>
+     <input type="hidden" id="status" name="idTsc" value="<%= item.id_transaksi %>">
+   </form>
+  </td>
+ <td class="cell-time align-right"><%= item.Tgl_tf%></td>
+</tr>

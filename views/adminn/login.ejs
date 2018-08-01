@@ -33,19 +33,20 @@
 		<div class="container">
 			<div class="row">
 				<div class="module module-login span4 offset4">
-					<form class="form-vertical">
+					<div class="form-vertical">
 						<div class="module-head">
 							<h3>Sign In</h3>
 						</div>
 						<div class="module-body">
+							<form action="/admin/login" method="post">
 							<div class="control-group">
 								<div class="controls row-fluid">
-									<input class="span12" type="text" id="inputEmail" placeholder="Username">
+									<input class="span12" type="text" id="inputUsername" placeholder="Username" name="username">
 								</div>
 							</div>
 							<div class="control-group">
 								<div class="controls row-fluid">
-									<input class="span12" type="password" id="inputPassword" placeholder="Password">
+									<input class="span12" type="password" id="inputPassword" placeholder="Password" name="password">
 								</div>
 							</div>
 						</div>
@@ -56,7 +57,7 @@
 								</div>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

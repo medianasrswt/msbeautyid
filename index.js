@@ -43,8 +43,30 @@ const checkAuth = (req, res, next) => {
 
 const generateRandomNumber = (length) => parseInt(Math.random().toString(10).substr(4, length))
 
+app.post('/admin/login', (req, res) => {
+ let { username, password } = req.body;
+console.log(req.body)
+  connection.query(
+    `select * from tb_user where username='${username}' and password='${password}' and Role='0'`,
+    (err, result, fields) => {
+      if (err) throw err;
+
+      if(req.session.user){
+       res.redirect('/admin/pesanan')
+      } else {
+       req.session.user = result[0]
+       req.session.authenticated = true;
+       res.redirect('/admin/pesanan')
+      }
+    }
+  );
+});
+
+app.get('/admin/login', (req, res) => {
+	res.render('adminn/login')
+}) 	
 app.get('/admin', (req, res) => {
-	res.render('adminn/pesanan')
+	res.render('adminn/login')
 })
 app.get('/admin/datatable', (req, res) => { 
 	connection.query('select * from tb_barang', (err, result, fields) => {
@@ -59,15 +81,31 @@ app.get('/admin/datatable', (req, res) => {
 app.get('/admin/user', (req, res) => {
 	res.render('adminn/user')
 }) 	
-app.get('/admin/login', (req, res) => {
-	res.render('adminn/login')
-}) 	
+
 app.get('/admin/pesanan', (req, res) => {
-	res.render('adminn/pesanan')
-}) 	
+	connection.query('select * from tb_pembayaran', (err, result, fields) => {
+		if (err) throw err
+		console.log(result)
+		res.render('adminn/pesanan', {
+			items: result
+		})
+	}) 	
+})
+
+app.post('/admin/update/status', (req,res) => {
+ let query =  `update tb_pembayaran set
+  Status_brg ='delivered' where Id_transaksi = '${req.body.idTsc}'`
+ connection.query(query, (err, result, fields) => {
+  if (err) throw err
+  console.log("update status", req.body)
+ res.redirect('/admin/pesanan')
+})
+})
+
 app.get('/admin/formbrg', (req, res) => {
 	res.render('adminn/formbrg')
 })
+
 app.post('/admin/formbrg',  (req, res) => {
    let {idbarang, kategori, namabarang, jenis, stockbarang, shade, hargabrg, desbrg, detailbrg, gambar, status} = req.body
   console.log(req.body)
@@ -189,9 +227,7 @@ app.post('/basket', (req, res) => {
 	}
 })
 
-app.get('/register', (req, res) => {
-	res.render('MSBEAUTYID/register', { userLoggedIn: req.session.user})
-})
+
 app.get('/payment-confirmation', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/payment-confirmation', { userLoggedIn: req.session.user})
 })
@@ -357,14 +393,19 @@ app.get('/detail/:jenis', (req, res) => {
 	})
 })
 
+app.get('/register', (req, res) => {
+	res.render('MSBEAUTYID/register', { userLoggedIn: req.session.user})
+})
+
 app.post('/register',  (req, res) => {
    let {username, nama, email, password, alamat, kelurahan, kecamatan, kodepos, kota, telpon} = req.body
+   console.log(req.body)
    connection.query(`insert into tb_user(username, Nama, Email, Password, Alamat, Kelurahan, Kecamatan, Kode_pos, Kota, Telpon) 
    		values('${username}','${nama}','${email}','${password}','${alamat}','${kelurahan}','${kecamatan}','${kodepos}','${kota}','${telpon}')`, (err, result, fields) => {
    			if(err) throw err
    			res.redirect('/')
    		})
-})
+	})
 
 app.post('/checkout1', (req, res) => {
 	const randomId = [generateRandomNumber(6)]

@@ -36,8 +36,8 @@
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Your Profile</a></li>
-								<li><a href="#">Logout</a></li>
+								<li><a href="/admin/user">Your Profile</a></li>
+								<li><a href="/admin/login">Logout</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -59,7 +59,6 @@
 								<a href="/admin/pesanan">
 									<i class="menu-icon icon-tasks"></i>
 									Pesanan
-									<b class="label orange pull-right">19</b>
 								</a>
 							</li>
 						</ul><!--/.widget-nav-->
@@ -80,12 +79,6 @@
 								</a>
 								<ul id="togglePages" class="collapse unstyled">
 									<li>
-										<a href="/admin/login">
-											<i class="icon-inbox"></i>
-											Login
-										</a>
-									</li>
-									<li>
 										<a href="/admin/user">
 											<i class="icon-inbox"></i>
 											Profile
@@ -97,7 +90,7 @@
 							</li>
 							
 							<li>
-								<a href="#">
+								<a href="/admin/login">
 									<i class="menu-icon icon-signout"></i>
 									Logout
 								</a>
@@ -131,13 +124,15 @@
 											<th>shade</th>
 											<th>harga barang</th>
 											<th>deskripsi barang</th>
-											<th>detail barang</th>
 											<th>gambar</th>
 											<th>status</th>
 
 										</tr>
 									</thead>
-									 <%- include('../template/list-data') %>
+									<tbody> <% for(let i = 0; i < items.length; i++) { %>
+									 <%- include('./template/list-data' , { item: items[i]}) %>
+									  <% } %>
+									</tbody>
 								</table>
 							</div>
 						</div>

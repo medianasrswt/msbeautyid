@@ -41,8 +41,8 @@
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Your Profile</a></li>
-								<li><a href="#">Logout</a></li>
+								<li><a href="/admin/user">Your Profile</a></li>
+								<li><a href="/admin">Logout</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -65,7 +65,6 @@
 								<a href="/admin/pesanan">
 									<i class="menu-icon icon-tasks"></i>
 									Pesanan
-									<b class="label orange pull-right">19</b>
 								</a>
 							</li>
 						</ul><!--/.widget-nav-->
@@ -86,12 +85,6 @@
 								</a>
 								<ul id="togglePages" class="collapse unstyled">
 									<li>
-										<a href="/admin/login">
-											<i class="icon-inbox"></i>
-											Login
-										</a>
-									</li>
-									<li>
 										<a href="/admin/user">
 											<i class="icon-inbox"></i>
 											Profile
@@ -101,7 +94,7 @@
 							</li>
 							
 							<li>
-								<a href="#">
+								<a href="/admin">
 									<i class="menu-icon icon-signout"></i>
 									Logout
 								</a>
@@ -123,116 +116,25 @@
 							<div class="module-head">
 								<h3>Pesanan</h3>
 							</div>
-							<div class="module-option clearfix">
-								<div class="pull-left">
-									Filter : &nbsp;
-									<div class="btn-group">
-										<button class="btn">All</button>
-										<button class="btn dropdown-toggle" data-toggle="dropdown">
-											<span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu">
-											<li><a href="#">All</a></li>
-											<li><a href="#">In Progress</a></li>
-											<li><a href="#">Done</a></li>
-											<li class="divider"></li>
-											<li><a href="#">New task</a></li>
-											<li><a href="#">Overdue Task</a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="pull-right">
-									<a href="#" class="btn btn-primary">Create Task</a>
-								</div>
-							</div>
+
 							<div class="module-body table">								
 
 								<table class="table table-message">
-									<tbody>
+									<tr class="heading">
 										<tr class="heading">
 											<td class="cell-icon"></td>
-											<td class="cell-title">Pesanan</td>
-											<td class="cell-status hidden-phone hidden-tablet">Status</td>
-											<td class="cell-time align-right">Due Date</td>
+											<td class="cell-title">Kode Transaksi</td>
+											<td class="cell-title">Username</td>
+											<td class="cell-title">Total Harga</td>	
+											<td class="cell-status hidden-phone hidden-tablet">Status
+											</td>
+											<td class="cell-time align-right">Tanggal Pesanan</td>
 										</tr>
-										<tr class="task">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"><b class="due">Delivered</b></td>
-											<td class="cell-time align-right">Just Now</td>
-										</tr>
-										<tr class="task">
-											<td class="cell-icon"><i class="icon-checker"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"><b class="due">Delivered</b></td>
-											<td class="cell-time align-right">Just Now</td>
-										</tr>
-										<tr class="task">
-											<td class="cell-icon"><i class="icon-checker"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"><b class="due">Delivered</b></td>
-											<td class="cell-time align-right">Yesterday</td>
-										</tr>
-										<tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-										<tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
-                                        <tr class="task resolved">
-											<td class="cell-icon"><i class="icon-checker high"></i></td>
-											<td class="cell-title"><div>Lorem ipsum dolor sit et, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div></td>
-											<td class="cell-status hidden-phone hidden-tablet"></td>
-											<td class="cell-time align-right">15 July 2014</td>
-										</tr>
+									<tbody> 
+										<% for(let i = 0; i < items.length; i++) { %>
+									 <%- include('./template/list-pesanan' , { item: items[i]}) %>
+									  <% } %>
+
 									</tbody>
 								</table>
 
