@@ -286,8 +286,30 @@ app.post('/upload-tf', upload.single('tfImage'), (req, res) => {
   	res.redirect('/');
 });
 
+app.post('/pencarian-produk', (req, res) => {
+	let query = `select * from tb_barang where Nama_brg like '%${req.body.search}%'`
+	connection.query(query , (err, result,fields)=> {
+	console.log(query)
+	res.render('./templates/pencarian-produk', {barang: result, userLoggedIn: req.session.user})
+	})
+})
+
 app.post('/update-password', (req, res) => {
+	console.log(req.body)
+	let query = `update tb_user set Password = '${req.body.newpass}' where username = '${req.session.user.username}' and Password='${req.body.oldpass}'`
+	connection.query(query , (err, result,fields)=> {
+	console.log(query)
 	res.redirect('/')
+	})
+})
+
+app.post('/trash', (req,res) => {
+ let query =  `delete tb_scartuser where Id_brg = '${req.sesion.idcart}'`
+ connection.query(query, (err, result, fields) => {
+  if (err) throw err
+  console.log("trash", req.body)
+ res.redirect('/basket')
+})
 })
 
 app.get('/finish-order', checkAuth, (req, res) => {

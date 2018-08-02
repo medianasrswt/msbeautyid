@@ -7,7 +7,7 @@
 <body>
     <!-- *** TOPBAR ***
  _________________________________________________________ -->
-    <%- include('../templates/toplist') %>
+    <%- include('../templates/toplist' , { path: '', userLoggedIn: userLoggedIn }) %>
     <!-- *** TOP BAR END *** -->
 
     <!-- *** NAVBAR ***
@@ -29,59 +29,17 @@
                     <ul class="breadcrumb">
                         <li><a href="/">Home</a>
                         </li>
-                        <li>My account</li>
                     </ul>
-
-                </div>
-
-                <div class="col-md-3">
-                    <!-- *** CUSTOMER MENU ***
- _________________________________________________________ -->
-                  
-                    <!-- /.col-md-3 -->
-
-                    <!-- *** CUSTOMER MENU END *** -->
-                </div>
-
-                <div class="col-md-9">
-                    <div class="box">
-                        <h1>My account</h1>
-                        <p class="lead">Change your personal details or your password here.</p>
+                    
+                    <div class="row products">
+                        <% for(var i = 0; i < barang.length; i++) { %>
+                            <%- include('./detail', { barang: barang[i], path: barang[i].gambar_brg })%>
+                        <% } %>
                         
-
-                        <h3>Change password</h3>
-
-                        <form action="/update-password" method="post">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="password_old">Old password</label>
-                                        <input type="password" class="form-control" id="password_old" name="oldpass">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="password_1">New password</label>
-                                        <input type="password" class="form-control" id="password_1" name="newpass">
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <!-- /.row -->
-
-                            <div class="col-sm-12 text-center">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save new password</button>
-                            </div>
-                        </form>
-
-                        <hr>
-
-                       
                     </div>
+                    <!-- /.products -->
                 </div>
-
+                <!-- /.col-md-9 -->
             </div>
             <!-- /.container -->
         </div>
@@ -90,20 +48,26 @@
 
         <!-- *** FOOTER ***
  _________________________________________________________ -->
-       
-         <div id="footer" data-animate="fadeInUp">
+        <div id="footer" data-animate="fadeInUp">
             <div class="container">
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
+                        <h4>Pages</h4>
+
+                        <ul>
+                           
+                            <li><a href="/contact">Contact us</a>
+                            </li>
+                        </ul>
 
                         <hr>
 
                         <h4>User section</h4>
 
                         <ul>
-                            <li><a href="/#" data-toggle="modal" data-target="#login-modal">Login</a>
+                            <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
                             </li>
-                            <li><a href="/register">Register</a>
+                            <li><a href="/register">Regiter</a>
                             </li>
                         </ul>
 
@@ -117,6 +81,7 @@
 
                     <div class="col-md-3 col-sm-6">
 
+                      
                         <h4>Where To Find Us</h4>
 
                         <p><strong>MSBEAUTYID</strong>
@@ -135,7 +100,8 @@
                             <br>Phone : 085888919797
                            
                         </p>
-                        <a href="/contact">Go to contact page</a>
+
+                        <a href="contact.html">Go to contact page</a>
 
                         <hr class="hidden-md hidden-lg">
 
@@ -144,9 +110,6 @@
 
 
 
-                    <div class="col-md-3 col-sm-6">
-
-                       
                             <!-- /input-group -->
                         </form>
 
@@ -155,10 +118,10 @@
                         <h4>Stay in touch</h4>
 
                         <p class="social">
-                            <a href=https:www.facebook.com/medianasaraswati class="facebook external" data-animate-hover="shake"><i class="fa fa-facebook"></i></a>
-                            <a href=https:twitter.com/medianasrswt class="twitter external" data-animate-hover="shake"><i class="fa fa-twitter"></i></a>
-                            <a href=https:www.instagram.com/medianasaraswati class="instagram external" data-animate-hover="shake"><i class="fa fa-instagram"></i></a>
-                            
+                            <a href="https://www.facebook.com/medianasaraswati" class="facebook external" data-animate-hover="shake"><i class="fa fa-facebook"></i></a>
+                            <a href="https://twitter.com/medianasrswt" class="twitter external" data-animate-hover="shake"><i class="fa fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/medianasaraswati" class="instagram external" data-animate-hover="shake"><i class="fa fa-instagram"></i></a>
+                           
                         </p>
 
 
@@ -187,8 +150,8 @@
 
                 </div>
                 <div class="col-md-6">
-                    <p class="pull-right">Template by <a href="/https://bootstrapious.com/e-commerce-templates">Bootstrapious</a> & <a href="/https://fity.cz">Fity</a>
-                        <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
+                    <p class="pull-right">Template by <a href="https://bootstrapious.com/e-commerce-templates">Bootstrapious</a> & <a href="https://fity.cz">Fity</a>
+                         <!-- Not removing these links is part of the license conditions of the template. Thanks for understanding :) If you want to use the template without the attribution links, you can do so after supporting further themes development at https://bootstrapious.com/donate  -->
                     </p>
                 </div>
             </div>
@@ -201,14 +164,11 @@
     <!-- /#all -->
 
 
-    
-
+   
     <!-- *** LOAD JS *** -->
     <%- include('../partials/javascript') %>
     <!-- *** LOAD JS *** -->
-    
-
-
+</body>
 
 </body>
 
