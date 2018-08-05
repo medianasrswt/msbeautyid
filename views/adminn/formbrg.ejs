@@ -114,8 +114,11 @@
 										<div class="control-group">
 											<label class="control-label" for="basicinput">id barang</label>
 											<div class="controls">
+												<% if (items != "") { %>
+												<input type="text" value="<%= items.Id_brg %>" id="idbarang" placeholder="Type something here..." class="span8" name="idbarang">
+												<% } else { %>
 												<input type="text" id="idbarang" placeholder="Type something here..." class="span8" name="idbarang">
-												
+												<% } %>
 											</div>
 										</div>
 
@@ -227,7 +230,7 @@
 
 										<div class="control-group">
 											<div class="controls">
-												<button type="submit" class="btn">Submit Form</button>
+												<button type="submit" class="btn">Save</button>
 											</div>
 										</div>
 									</form>

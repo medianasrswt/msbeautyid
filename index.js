@@ -15,14 +15,15 @@ const connection = mysql.createConnection({
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, './');
+    cb(null, 'bukti-tf/');
   },
   filename: function(req, file, cb) {
-    console.log(file);
-    cb(null, file.originalnacheme); 
+    console.log(file.originalname);
+    cb(null, file.originalname); 
   },
 });
-const upload = multer({ storage: storage });
+
+const upload = multer({ storage : storage });
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -42,6 +43,7 @@ const checkAuth = (req, res, next) => {
 }
 
 const generateRandomNumber = (length) => parseInt(Math.random().toString(10).substr(4, length))
+
 
 app.post('/admin/login', (req, res) => {
  let { username, password } = req.body;
@@ -103,7 +105,9 @@ app.post('/admin/update/status', (req,res) => {
 })
 
 app.get('/admin/formbrg', (req, res) => {
-	res.render('adminn/formbrg')
+	res.render('adminn/formbrg', {
+		items: ""
+	})
 })
 
 app.post('/admin/formbrg',  (req, res) => {
@@ -127,6 +131,41 @@ app.post('/admin/formbrg',  (req, res) => {
    			res.redirect('/admin')
    		})
 })
+
+app.get('/admin/formbrg/:id_brg', (req, res) => {
+    let query = `select * from tb_barang where Id_brg = '${req.params.id_brg}' limit 1`
+	connection.query(query, (err, result, fields) => {
+		if (err) throw err
+		console.log(result)
+		res.render(`adminn/formbrg`, {
+			items: result
+		})
+	})
+})
+
+app.post('/admin/formbrg/:id_brg',  (req, res) => {
+   let {idbarang, kategori, namabarang, jenis, stockbarang, shade, hargabrg, desbrg, detailbrg, gambar, status} = req.body
+  console.log(req.body)
+    let query = `update tb_barang set
+		Id_brg='${req.params.id_brg}', 
+		Kategori='${kategori}',
+		Nama_brg='${namabarang}',
+		Jenis='${jenis}',
+		Stok_brg='${stockbarang}',
+		Shade = '${shade}',
+		Harga_brg = '${hargabrg}',
+		Deskripsi_brg = '${desbrg}',
+		Detail_brg = '${detailbrg}',
+		gambar_brg = '${gambar}',
+		status = '${status}' 
+		where Id_brg='${req.params.id_brg}'`
+		console.log(query)
+   	connection.query(query, (err, result, fields)=> {
+		if (err) throw err
+   			res.redirect('/formbrg')
+   		})
+})
+
 app.get('/', (req, res) => {
 	connection.query('select * from tb_barang group by Jenis', (err, result, fields) => {
 		if (err) throw err
@@ -180,7 +219,7 @@ app.get('/contact', (req, res) => {
 app.get('/contact', (req, res) => {
 	res.render('MSBEAUTYID/register',{ userLoggedIn: req.session.user})
 })
-app.get('/basket', checkAuth, (req, res) => {
+app.get('/', checkAuth, (req, res) => {
  	res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
 })
 
@@ -227,15 +266,44 @@ app.post('/basket', (req, res) => {
 	}
 })
 
+app.get('/basket', (req, res) => {
+	if(req.session.idcart) {
+    let query = `select * from tb_scartuser where id_shopping_cart = '${req.session.idcart}'`
+    connection.query(query , (err, result, fields) => {
+     	console.log(query)
+     	if (err) throw err;
+     	let itemsInBasket = result.map(item => item.Id_brg)
+ 
+    	query = `select * from tb_barang where Id_brg in (?)`
+    	connection.query(query , [itemsInBasket],  (err, result, fields) => {
+      		console.log(result)
+      		if (err) throw err;
+     		res.render('MSBEAUTYID/basket', { idsc: req.session.idcart, items: result, userLoggedIn: req.session.user})
+     	})
+     
+    })
+  } else {
+        	res.redirect('/')
+   }
+  		// res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
+})
 
-app.get('/payment-confirmation', checkAuth, (req, res) => {
-	res.render('MSBEAUTYID/payment-confirmation', { userLoggedIn: req.session.user})
+app.get('/payment-confirmation', checkAuth, (req,res)=>{
+	res.render('MSBEAUTYID/payment-confirmation' , { userLoggedIn: req.session.user })
+})
+
+app.post('/payment-confirmation', upload.single('file'), (req,res)=>{
+    const file = req.file;
+    const meta = req.body;
+
+    console.log(file,meta)
+
+    res.end();
 })
 
 app.get('/checkout1', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/checkout1', { userLoggedIn: req.session.user})
 })
-
 app.get('/checkout2', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/checkout2', { userLoggedIn: req.session.user })
 })
@@ -255,7 +323,7 @@ app.post('/checkout3', (req, res) => {
 		
 		let itemsInBasket = result.map(item => item.Id_brg)
 		let scartViewItems = result.map(item => item)
-
+		req.session.user.scartUserItems = scartViewItems
 		console.log("barang", scartViewItems)
 		connection.query(`select * from tb_barang where Id_brg in (?)`, [itemsInBasket], (err, result, fields) => {
 			if (err) throw err;
@@ -263,6 +331,7 @@ app.post('/checkout3', (req, res) => {
 				idsc: req.session.idcart, 
 				items: result, 
 				userLoggedIn: req.session.user, 
+				shipp: shipping,
 				pymntMthd: req.body.pembayaran,
 				scartViewItems: scartViewItems
 			})
@@ -271,9 +340,25 @@ app.post('/checkout3', (req, res) => {
 })
 
 app.post('/checkout4', (req, res) => {
- res.render('MSBEAUTYID/finish-order', { userLoggedIn: req.session.user})
-})
+ let idsBarang = req.session.user.scartUserItems.map(item => item.Id_brg)
+ let jmlhBarangPerIds = req.session.user.scartUserItems.map(item => item.Jumlah_brg)
 
+ let query = 'select Stok_brg, Id_brg from tb_barang where Id_brg in (?)'
+    connection.query(query , [idsBarang], (err, result, fields) => {
+      if (err) throw err;
+      console.log("condition 1", idsBarang)
+      console.log("condition 2", jmlhBarangPerIds)
+      console.log("ready to update", result)
+      result.map((item, index) => {
+           query = `update tb_barang set Stok_brg = ${item.Stok_brg - req.session.user.scartUserItems[index].Jumlah_brg} where Id_brg = '${item.Id_brg}'`
+           connection.query(query , (err, result, fields) => {
+                 if (err) throw err;
+                 console.log(query)
+           })
+      })
+    })
+res.render('MSBEAUTYID/finish-order', { userLoggedIn: req.session.user})
+})
 const tes = multer().single('tfImage')
 app.post('/upload-tf', upload.single('tfImage'), (req, res) => {
 	tes(req, res, function (err) {
@@ -304,12 +389,13 @@ app.post('/update-password', (req, res) => {
 })
 
 app.post('/trash', (req,res) => {
- let query =  `delete tb_scartuser where Id_brg = '${req.sesion.idcart}'`
- connection.query(query, (err, result, fields) => {
-  if (err) throw err
-  console.log("trash", req.body)
- res.redirect('/basket')
-})
+	let query = `delete from tb_scartuser where id_shopping_cart = '${req.session.idcart}' and username = '${req.session.user.username}' and Id_brg = '${req.body.idBrg}'`
+ 	console.log(query)
+ 	connection.query(query, (err, result, fields) => {
+  		if (err) throw err
+  	console.log("trash", req.body)
+ 	res.redirect('/basket')
+	})
 })
 
 app.get('/finish-order', checkAuth, (req, res) => {
@@ -389,6 +475,38 @@ const barang = {
 		description: "A moisturizer is a cream that you put on your skin to make it feel softer and smoother."
 	}
 }
+
+const ktgr = {
+	Eye: {
+		name: "Eye",
+		description : "To complete your eyes"
+	},
+	Face: {
+		name : "Face",
+		description : "To cover your f"
+	},
+	Lips: {
+		name : "Lips",
+		description : "lala"
+	},
+}
+
+app.get('/barang/:kategori/:subkategori', (req, res) => {
+	let {kategori, subkategori} = req.params
+	let query = `select * from tb_barang where kategori='${req.params.subkategori}'`
+	connection.query(query, (err, result, fields) => {
+		if (err) throw err
+			console.log(query)
+		res.render(`templates/category`, { 
+			nama: ktgr[`${req.params.subkategori}`].name, 
+			desc: ktgr[`${req.params.subkategori}`].description, 
+			jumlah: result.length,
+			barang: result,
+			path: kategori,
+			userLoggedIn: req.session.user
+		})
+	})
+})
 
 app.get('/barang/:kategori/:subkategori/:jenis', (req, res) => {
 	let { kategori, subkategori, jenis } = req.params
@@ -478,6 +596,7 @@ app.post('/update-checkout1', (req, res) => {
 	})
 })
 app.post('/update-checkout2', (req, res) => {
+	req.session.user.shipping = parseInt(shipping[req.body.kota])
  let grandTotal = parseInt(req.session.user.totalBelanja) + parseInt(shipping[req.body.kota])
  let query = `update tb_pembayaran set
    Total_harga = '${grandTotal}' where Id_transaksi =${req.session.user.idtsc}`

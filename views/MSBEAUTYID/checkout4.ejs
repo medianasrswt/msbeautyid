@@ -61,14 +61,16 @@
                                         <tbody>
                                             <% subTotal = 0; %>
                                             <% for(let i = 0; i < items.length; i++) { %>
-                                                <%- include('../templates/scart-review', { item: items[i], jumlah_brg: scartViewItems[i].Jumlah_brg }) %>
+                                                <%- include('../templates/scart-review', { item: items[i], jumlah_brg: scartViewItems[i].Jumlah_brg }) 
+                                                %>
+                                                 <input type="hidden" id="tes" name="tes" value="<%= scartViewItems[i].Jumlah_brg %>">
                                                 <% subTotal += parseInt(items[i].Harga_brg.substr(2, 7)) * 1000 %>
                                             <% } %>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th colspan="4">Total</th>
-                                                <th colspan="2"><%= subTotal %></th>
+                                                <th colspan="2"><%= subTotal + userLoggedIn.shipping %></th>
                                             </tr>
                                         </tfoot>
                                     </table>

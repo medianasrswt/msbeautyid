@@ -31,7 +31,12 @@
                             <a href="/">Home</a>
                         </li>
                         <li>
-                            <a href="#"><%= jenis.Kategori %></a>
+                            <%if ( jenis.Kategori  == "Cleanser" ||  jenis.Kategori == "Moisturizer") { %>
+                                <a href="/barang/skincare/<%= jenis.Kategori %>"><%= jenis.Kategori %></a>
+                            <% } else { %>
+                                <a href="/barang/makeup/<%= jenis.Kategori %>"><%= jenis.Kategori %></a>
+                            <% } %>
+                            
                         </li>
                         <li>
                             <a href="/barang/makeup/<%= jenis.Kategori.toLowerCase() %>/<%= jenis.Jenis.toLowerCase() %>"><%= jenis.Jenis %></a>

@@ -13,7 +13,7 @@
     <td><%= item.Harga_brg.length > 11 ? `Rp${parseInt(item.Harga_brg.substr(2, 7)) * 1000}` : `Rp${parseInt(item.Harga_brg.substr(2, 6)) * 1000}` %></td>
    <td> <form action ="/trash" method="post">
      <button type="submit" class="btn" style="background: none; border: none; color: #4fbfa8"><b class="fa fa-trash-o"></b></button>
-     <input type="hidden" id="trash" name="idTsc" value="trash">
+     <input type="hidden" id="trash" name="idBrg" value="<%= item.Id_brg %>">
    </form>
 </td>
 
