@@ -1,0 +1,106 @@
+									<form action="/admin/update-barang" method="post" class="form-horizontal row-fluid">
+										
+										<div class="control-group">
+											<label class="control-label" for="basicinput">id barang</label>
+											<div class="controls">
+												<input type="text" value="<%= item.Id_brg %>" id="idbarang" placeholder="Type something here..." class="span8" name="idbarang" readonly>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="basicinput">kategori</label>
+											<div class="controls">
+												<div class="dropdown">
+													
+													<select class="dropdown-toggle" name="kategori">
+														<option value="Cleanser" <%= item.Kategori == "Cleanser" ? 'selected' : null %>>Cleanser</option>
+														<option value="Eye" <%= item.Kategori == "Eye" ? 'selected' : null %>>Eye</option>
+														<option value="Face" <%= item.Kategori == "Face" ? 'selected' : null %>>Face</option>
+														<option value="Lips" <%= item.Kategori == "Lips" ? 'selected' : null %>>Lips</option>
+														<option value="Moisturizer" <%= item.Kategori == "Moisturizer" ? 'selected' : null %>>Moisturizer</option>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="basicinput">nama barang</label>
+											<div class="controls">
+												<input type="text" id="namabarang" placeholder="Type something here..." class="span8" name="namabarang" value="<%= item.Nama_brg %>">
+											</div>
+										</div>
+									
+										<div class="control-group">
+											<label class="control-label" for="basicinput">jenis</label>
+											<div class="controls">
+												<div class="dropdown">
+													<select class="dropdown-toggle" name="jenis" value="<%= item.Jenis %>" >
+														<option value="Blush" <%= item.Jenis == "Blush" ? 'selected' : null %>>Blush</option>
+														<option value="Bronzer" <%= item.Jenis == "Bronzer" ? 'selected' : null %>>Bronzer</option>
+														<option value="Concealer" <%= item.Jenis == "Concealer" ? 'selected' : null %>>Concealer</option>
+														<option value="Eyeshadow" <%= item.Jenis == "Eyeshadow" ? 'selected' : null %>>Eyeshadow</option>
+														<option value="Foundation" <%= item.Jenis == "Foundation" ? 'selected' : null %>>Foundation</option>
+														<option value="Lipstick" <%= item.Jenis == "Lipstick" ? 'selected' : null %>>Lipstick</option>
+														<option value="Lipbalm" <%= item.Jenis == "Lipbalm" ? 'selected' : null %>>Lip Balm</option> 	
+														<option value="Loosepowder" <%= item.Jenis == "Loosepowder" ? 'selected' : null %>>Loose Powder</option>
+														<option value="Makeupremover" <%= item.Jenis == "Makeupremover" ? 'selected' : null %>>Make Up Remover</option>
+														<option value="Mascara" <%= item.Jenis == "Mascara" ? 'selected' : null %>>Mascara</option>
+														<option value="Moisturizer" <%= item.Jenis == "Moisturizer" ? 'selected' : null %>>Moisturizer</option>
+													</select>
+													
+
+													</ul>
+												</div>
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="basicinput">stock barang</label>
+											<div class="controls">
+												<input data-title="A tooltip for the input" type="text" placeholder="Type something here..." data-original-title="" class="span8 tip" name="stockbarang" value="<%= item.Stok_brg %>">
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="basicinput">shade</label>
+											<div class="controls">
+												<input data-title="A tooltip for the input" type="text" placeholder="Type something here..." data-original-title="" class="span8 tip" name="shade" value="<%= item.Shade %>">
+											</div>
+										</div>
+										
+										<div class="control-group">
+											<label class="control-label" for="basicinput">harga barang</label>
+											<div class="controls">
+												<div class="input-append">
+													<input type="text" placeholder="5.000" class="span8" name="hargabrg" value = "<%= item.Harga_brg %>"><span class="add-on">Rp</span>
+												</div>
+											</div>
+										</div>										
+
+										<<div class="control-group">
+											<label class="control-label" for="basicinput">deskripsi barang</label>
+											<div class="controls">
+												<input data-title="A tooltip for the input" type="text" placeholder="Type something here..." data-original-title="" class="span8 tip" name="desbrg" value = "<%= item.Deskripsi_brg%>">
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="basicinput">detail barang</label>
+											<div class="controls">
+												<input data-title="A tooltip for the input" type="text" placeholder="Type something here..." data-original-title="" class="span8 tip" name="detailbrg" value = "<%= item.Detail_brg %>">
+											</div>
+										</div>
+										
+										<div class="control-group">
+											<label class="control-label" for="basicinput">status</label>
+											<div class="controls">
+												<input type="text" id="status" placeholder="Type something here..." class="span8" name="status" value="<%= item.status %>">
+											</div>
+										</div>
+
+										<div class="control-group">
+											<div class="controls">
+												<button type="submit" class="btn">Save</button>
+											</div>
+										</div>
+									</form>

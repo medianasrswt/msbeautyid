@@ -4,6 +4,9 @@ const session = require('express-session')
 const multer = require('multer');
 const path = require('path');
 const mysql = require('mysql');
+const fs = require('fs')
+const ncp = require('ncp').ncp
+
 const PORT = 3000
 
 const connection = mysql.createConnection({
@@ -13,17 +16,16 @@ const connection = mysql.createConnection({
   database : 'restore_msbid'
 });
 
-const storage = multer.diskStorage({
+let storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, 'bukti-tf/');
+    cb(null, './bukti-tf/');
   },
   filename: function(req, file, cb) {
-    console.log(file.originalname);
     cb(null, file.originalname); 
   },
 });
+let upload = multer({ storage });
 
-const upload = multer({ storage : storage });
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -43,25 +45,24 @@ const checkAuth = (req, res, next) => {
 }
 
 const generateRandomNumber = (length) => parseInt(Math.random().toString(10).substr(4, length))
+const generateFolderName = (namaBrg, jenisBrg) => namaBrg.split(' ')[0].toLowerCase() + jenisBrg.toLowerCase()
 
 
 app.post('/admin/login', (req, res) => {
- let { username, password } = req.body;
-console.log(req.body)
-  connection.query(
-    `select * from tb_user where username='${username}' and password='${password}' and Role='0'`,
-    (err, result, fields) => {
-      if (err) throw err;
-
-      if(req.session.user){
-       res.redirect('/admin/pesanan')
-      } else {
-       req.session.user = result[0]
-       req.session.authenticated = true;
-       res.redirect('/admin/pesanan')
-      }
-    }
-  );
+	let { username, password } = req.body;
+	connection.query(
+    	`select * from tb_user where username='${username}' and password='${password}' and Role='0'`,
+    	(err, result, fields) => {
+	   		if (err) throw err;
+		   	if(req.session.user){
+		   		res.redirect('/admin/pesanan')
+			} else {
+			    req.session.user = result[0]
+			    req.session.authenticated = true;
+			    res.redirect('/admin/pesanan')
+			}
+	    }
+  	);
 });
 
 app.get('/admin/login', (req, res) => {
@@ -73,7 +74,6 @@ app.get('/admin', (req, res) => {
 app.get('/admin/datatable', (req, res) => { 
 	connection.query('select * from tb_barang', (err, result, fields) => {
 		if (err) throw err
-		console.log(result)
 		res.render('adminn/datatable', { 
 			items: result
 		})
@@ -87,7 +87,6 @@ app.get('/admin/user', (req, res) => {
 app.get('/admin/pesanan', (req, res) => {
 	connection.query('select * from tb_pembayaran', (err, result, fields) => {
 		if (err) throw err
-		console.log(result)
 		res.render('adminn/pesanan', {
 			items: result
 		})
@@ -95,24 +94,44 @@ app.get('/admin/pesanan', (req, res) => {
 })
 
 app.post('/admin/update/status', (req,res) => {
- let query =  `update tb_pembayaran set
-  Status_brg ='delivered' where Id_transaksi = '${req.body.idTsc}'`
- connection.query(query, (err, result, fields) => {
-  if (err) throw err
-  console.log("update status", req.body)
- res.redirect('/admin/pesanan')
-})
-})
-
-app.get('/admin/formbrg', (req, res) => {
-	res.render('adminn/formbrg', {
-		items: ""
+	let query =  `update tb_pembayaran set
+		Status_brg ='delivered' where Id_transaksi = '${req.body.idTsc}'`
+	connection.query(query, (err, result, fields) => {
+		if (err) throw err
+		res.redirect('/admin/pesanan')
 	})
 })
 
-app.post('/admin/formbrg',  (req, res) => {
-   let {idbarang, kategori, namabarang, jenis, stockbarang, shade, hargabrg, desbrg, detailbrg, gambar, status} = req.body
-  console.log(req.body)
+app.get('/admin/bikin-folder', (req, res) => {
+    const path = __dirname + '/views/static/img/barang' + '/aahoy/'
+    fs.mkdir(path)
+    res.send(path)
+})
+
+app.get('/admin/formbrg', (req, res) => {
+	res.render('adminn/formbrg')
+})
+
+storage = multer.diskStorage({
+    destination : (req, file, cb) => {
+        cb(null, './uploads/warehouse/')
+    },
+    filename : (req, file, cb)=>{
+        cb(null, file.fieldname + '.jpg')
+    }
+})
+upload = multer({storage})
+const mfUpload = upload.fields([
+  { name: '1', maxCount: 1 },
+  { name: '2', maxCount: 1 },
+  { name: '3', maxCount: 1 },
+  { name: 'main', maxCount: 1 },
+  { name: 'scart', maxCount: 1 }
+])
+
+app.post('/admin/formbrg', mfUpload, (req, res) => {
+	let {idbarang, kategori, namabarang, jenis, stockbarang, shade, hargabrg, desbrg, detailbrg, gambar, status} = req.body
+	console.log(req.body)
     let query = `insert into tb_barang values(
 		'${idbarang}', 
 		'${kategori}',
@@ -125,45 +144,62 @@ app.post('/admin/formbrg',  (req, res) => {
 		'${detailbrg}',
 		'${gambar}',
 		'${status}')`
-		console.log(query)
-   	connection.query(query, (err, result, fields)=> {
-		if (err) throw err
-   			res.redirect('/admin')
-   		})
+	console.log("query insert", query)
+
+		/* sisipin kodingan buat folder di sini*/
+	const newFolder = generateFolderName(namabarang, jenis)
+	const target = __dirname + `/views/static/img/barang/${newFolder}`
+    // fs.mkdir(target)
+    
+    const oldPath = path.join(__dirname, 'uploads/warehouse')
+    const newPath = path.join(__dirname, `${target}`)
+
+    console.log("newFolder", newFolder)
+    console.log("old path", oldPath)
+    console.log("new path", newPath)
+
+    // ncp(oldPath, newPath, function (err) {
+    //      if (err) {
+    //        return console.error(err);
+    //      }
+    //      console.log('done!');
+    // });
+
+  //  	connection.query(query, (err, result, fields)=> {
+		// if (err) throw err
+  //  		res.redirect('/admin')
+  //  	})
+   	res.redirect('/admin/datatable')
 })
 
 app.get('/admin/formbrg/:id_brg', (req, res) => {
     let query = `select * from tb_barang where Id_brg = '${req.params.id_brg}' limit 1`
 	connection.query(query, (err, result, fields) => {
 		if (err) throw err
-		console.log(result)
-		res.render(`adminn/formbrg`, {
-			items: result
+		res.render(`adminn/formedit`, {
+			item: result[0]
 		})
 	})
 })
 
-app.post('/admin/formbrg/:id_brg',  (req, res) => {
-   let {idbarang, kategori, namabarang, jenis, stockbarang, shade, hargabrg, desbrg, detailbrg, gambar, status} = req.body
-  console.log(req.body)
+app.post('/admin/update-barang',  (req, res) => {
+	let {idbarang, kategori, namabarang, jenis, stockbarang, shade, hargabrg, desbrg, detailbrg, gambar, status} = req.body
     let query = `update tb_barang set
-		Id_brg='${req.params.id_brg}', 
 		Kategori='${kategori}',
-		Nama_brg='${namabarang}',
+		Nama_brg='${namabarang.replace("'", "\\'")}',
 		Jenis='${jenis}',
 		Stok_brg='${stockbarang}',
 		Shade = '${shade}',
 		Harga_brg = '${hargabrg}',
-		Deskripsi_brg = '${desbrg}',
-		Detail_brg = '${detailbrg}',
-		gambar_brg = '${gambar}',
-		status = '${status}' 
-		where Id_brg='${req.params.id_brg}'`
-		console.log(query)
+		Deskripsi_brg = '${desbrg.replace("'", "\\'")}',
+		Detail_brg = '${detailbrg.replace("'", "\\'")}',
+		status = '${status}'
+		where Id_brg='${idbarang}'`
    	connection.query(query, (err, result, fields)=> {
 		if (err) throw err
-   			res.redirect('/formbrg')
-   		})
+   		res.redirect('/admin/datatable')
+   	})
+
 })
 
 app.get('/', (req, res) => {
@@ -223,6 +259,7 @@ app.get('/', checkAuth, (req, res) => {
  	res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
 })
 
+
 app.post('/basket', (req, res) => {
 	if(!req.session.user){
 		res.redirect('/');
@@ -244,7 +281,7 @@ app.post('/basket', (req, res) => {
 			})
 		} else {
 			const randomId = [generateRandomNumber(6)]
-			connection.query(`insert into tb_scart values(${randomId[0]}, '${req.session.user.username}', 1, 10000)`, (err, result, fields) => {
+			connection.query(`insert into tb_scart values('${randomId[0]}', '${req.session.user.username}', 1, 10000)`, (err, result, fields) => {
 				if(err) throw err;
 				connection.query(`insert into tb_scartuser values('${randomId[0]}', '${req.body.nama}', '${req.session.user.username}', 1000)`, (err, result, fields) => {
 					if(err) throw err;
@@ -268,24 +305,21 @@ app.post('/basket', (req, res) => {
 
 app.get('/basket', (req, res) => {
 	if(req.session.idcart) {
-    let query = `select * from tb_scartuser where id_shopping_cart = '${req.session.idcart}'`
-    connection.query(query , (err, result, fields) => {
-     	console.log(query)
-     	if (err) throw err;
-     	let itemsInBasket = result.map(item => item.Id_brg)
- 
-    	query = `select * from tb_barang where Id_brg in (?)`
-    	connection.query(query , [itemsInBasket],  (err, result, fields) => {
-      		console.log(result)
-      		if (err) throw err;
-     		res.render('MSBEAUTYID/basket', { idsc: req.session.idcart, items: result, userLoggedIn: req.session.user})
-     	})
-     
-    })
-  } else {
+	    let query = `select * from tb_scartuser where id_shopping_cart = '${req.session.idcart}'`
+	    connection.query(query , (err, result, fields) => {
+	     	if (err) throw err;
+	     	let itemsInBasket = result.map(item => item.Id_brg)
+	 
+	    	query = `select * from tb_barang where Id_brg in (?)`
+	    	connection.query(query , [itemsInBasket],  (err, result, fields) => {
+	      		if (err) throw err;
+	     		res.render('MSBEAUTYID/basket', { idsc: req.session.idcart, items: result, userLoggedIn: req.session.user})
+	     	})
+	     
+	    })
+	} else {
         	res.redirect('/')
-   }
-  		// res.render('MSBEAUTYID/basket', { userLoggedIn: req.session.user})
+   	}
 })
 
 app.get('/payment-confirmation', checkAuth, (req,res)=>{
@@ -293,12 +327,13 @@ app.get('/payment-confirmation', checkAuth, (req,res)=>{
 })
 
 app.post('/payment-confirmation', upload.single('file'), (req,res)=>{
-    const file = req.file;
-    const meta = req.body;
+    // const file = req.file;
+    // const meta = req.body;
 
-    console.log(file,meta)
+    // console.log(file,meta)
 
-    res.end();
+    // res.end();
+    res.redirect('/')
 })
 
 app.get('/checkout1', checkAuth, (req, res) => {
@@ -307,7 +342,15 @@ app.get('/checkout1', checkAuth, (req, res) => {
 app.get('/checkout2', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/checkout2', { userLoggedIn: req.session.user })
 })
-app.post('/checkout2', (req, res) => {
+app.get('/checkout3', checkAuth, (req, res) => {
+	res.render('MSBEAUTYID/checkout3', { userLoggedIn: req.session.user })
+})
+app.get('/checkout4', checkAuth, (req, res) => {
+	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
+})
+
+
+app.post('/checkout2', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/checkout2', { userLoggedIn: req.session.user})
 })
 
@@ -317,14 +360,12 @@ app.post('/checkout3', (req, res) => {
 	let { idcart } = req.session
 	let query = `select count(*) Jumlah_brg, Id_brg  from tb_scartuser 
 		where id_shopping_cart = '${idcart}' group by Id_brg`
-	console.log(query)	
 	connection.query(query, (err, result, fields)=> {
 		if (err) throw err
 		
 		let itemsInBasket = result.map(item => item.Id_brg)
 		let scartViewItems = result.map(item => item)
 		req.session.user.scartUserItems = scartViewItems
-		console.log("barang", scartViewItems)
 		connection.query(`select * from tb_barang where Id_brg in (?)`, [itemsInBasket], (err, result, fields) => {
 			if (err) throw err;
 			res.render('MSBEAUTYID/checkout4', { 
@@ -340,69 +381,55 @@ app.post('/checkout3', (req, res) => {
 })
 
 app.post('/checkout4', (req, res) => {
- let idsBarang = req.session.user.scartUserItems.map(item => item.Id_brg)
- let jmlhBarangPerIds = req.session.user.scartUserItems.map(item => item.Jumlah_brg)
+	let idsBarang = req.session.user.scartUserItems.map(item => item.Id_brg)
+	let jmlhBarangPerIds = req.session.user.scartUserItems.map(item => item.Jumlah_brg)
 
- let query = 'select Stok_brg, Id_brg from tb_barang where Id_brg in (?)'
+	let query = 'select Stok_brg, Id_brg from tb_barang where Id_brg in (?)'
     connection.query(query , [idsBarang], (err, result, fields) => {
       if (err) throw err;
-      console.log("condition 1", idsBarang)
-      console.log("condition 2", jmlhBarangPerIds)
-      console.log("ready to update", result)
       result.map((item, index) => {
            query = `update tb_barang set Stok_brg = ${item.Stok_brg - req.session.user.scartUserItems[index].Jumlah_brg} where Id_brg = '${item.Id_brg}'`
            connection.query(query , (err, result, fields) => {
                  if (err) throw err;
-                 console.log(query)
            })
       })
     })
-res.render('MSBEAUTYID/finish-order', { userLoggedIn: req.session.user})
+	res.render('MSBEAUTYID/finish-order', { userLoggedIn: req.session.user})
 })
-const tes = multer().single('tfImage')
+
+
 app.post('/upload-tf', upload.single('tfImage'), (req, res) => {
-	tes(req, res, function (err) {
-	    if (err) {
-	      console.log(err)
-	      return
-	    }
-	})
-	console.log(req.body)
   	res.redirect('/');
 });
 
 app.post('/pencarian-produk', (req, res) => {
 	let query = `select * from tb_barang where Nama_brg like '%${req.body.search}%'`
 	connection.query(query , (err, result,fields)=> {
-	console.log(query)
-	res.render('./templates/pencarian-produk', {barang: result, userLoggedIn: req.session.user})
+		res.render('./templates/pencarian-produk', {barang: result, userLoggedIn: req.session.user})
 	})
 })
 
 app.post('/update-password', (req, res) => {
-	console.log(req.body)
 	let query = `update tb_user set Password = '${req.body.newpass}' where username = '${req.session.user.username}' and Password='${req.body.oldpass}'`
 	connection.query(query , (err, result,fields)=> {
-	console.log(query)
 	res.redirect('/')
 	})
 })
 
 app.post('/trash', (req,res) => {
 	let query = `delete from tb_scartuser where id_shopping_cart = '${req.session.idcart}' and username = '${req.session.user.username}' and Id_brg = '${req.body.idBrg}'`
- 	console.log(query)
  	connection.query(query, (err, result, fields) => {
   		if (err) throw err
-  	console.log("trash", req.body)
- 	res.redirect('/basket')
+ 	res.redirect('/')
 	})
 })
+
 
 app.get('/finish-order', checkAuth, (req, res) => {
 	res.render('MSBEAUTYID/checkout4', { userLoggedIn: req.session.user })
 })
 
-const shipping ={
+const shipping = {
 	"Bandung"	: "10000",
 	"Bekasi"	: "10000",
 	"Batam"		: "28000",	
@@ -479,16 +506,20 @@ const barang = {
 const ktgr = {
 	Eye: {
 		name: "Eye",
-		description : "To complete your eyes"
 	},
 	Face: {
 		name : "Face",
-		description : "To cover your f"
 	},
 	Lips: {
 		name : "Lips",
-		description : "lala"
 	},
+	Cleanser: {
+		name : "Cleanser", 
+
+	},
+	Moisturizer: {
+		name : "Moisturizer"
+	}
 }
 
 app.get('/barang/:kategori/:subkategori', (req, res) => {
@@ -496,7 +527,6 @@ app.get('/barang/:kategori/:subkategori', (req, res) => {
 	let query = `select * from tb_barang where kategori='${req.params.subkategori}'`
 	connection.query(query, (err, result, fields) => {
 		if (err) throw err
-			console.log(query)
 		res.render(`templates/category`, { 
 			nama: ktgr[`${req.params.subkategori}`].name, 
 			desc: ktgr[`${req.params.subkategori}`].description, 
@@ -539,7 +569,6 @@ app.get('/register', (req, res) => {
 
 app.post('/register',  (req, res) => {
    let {username, nama, email, password, alamat, kelurahan, kecamatan, kodepos, kota, telpon} = req.body
-   console.log(req.body)
    connection.query(`insert into tb_user(username, Nama, Email, Password, Alamat, Kelurahan, Kecamatan, Kode_pos, Kota, Telpon) 
    		values('${username}','${nama}','${email}','${password}','${alamat}','${kelurahan}','${kecamatan}','${kodepos}','${kota}','${telpon}')`, (err, result, fields) => {
    			if(err) throw err

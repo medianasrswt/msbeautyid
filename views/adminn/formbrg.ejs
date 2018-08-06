@@ -64,8 +64,8 @@
 
 						<ul class="widget widget-menu unstyled">
                                 
-                                <li><a href="/admin/formbrg"><i class="menu-icon icon-paste"></i>Forms </a></li>
-                                <li><a href="/admin/datatable"><i class="menu-icon icon-table"></i>Tables </a></li>
+                                <li><a href="/admin/formbrg"><i class="menu-icon icon-paste"></i>Form Barang Baru </a></li>
+                                <li><a href="/admin/datatable"><i class="menu-icon icon-table"></i>Daftar Barang </a></li>
                                
                             </ul><!--/.widget-nav-->
 
@@ -114,11 +114,8 @@
 										<div class="control-group">
 											<label class="control-label" for="basicinput">id barang</label>
 											<div class="controls">
-												<% if (items != "") { %>
-												<input type="text" value="<%= items.Id_brg %>" id="idbarang" placeholder="Type something here..." class="span8" name="idbarang">
-												<% } else { %>
+												
 												<input type="text" id="idbarang" placeholder="Type something here..." class="span8" name="idbarang">
-												<% } %>
 											</div>
 										</div>
 
@@ -151,27 +148,18 @@
 											<div class="controls">
 												<div class="dropdown">
 													<select class="dropdown-toggle" name="jenis">
-														<option>BB Cream</option>
 														<option>Blush</option>
-														<option>Blush Kit</option>
 														<option>Bronzer</option>
-														<option>Eyeshadow Pallete</option>
+														<option>Concealer</option>
 														<option>Foundation</option>
+														<option>Eyeshadow</option>
 														<option>Lipstick</option>
-														<option>Lip Balm</option>
-														<option>Lip Sleeping Mask</option>
-														<option>Loose Powder</option>
-														<option>Master Creator Blush</option>
+														<option>Lipbalm</option>
+														<option>Makeupremover</option>
 														<option>Mascara</option>
-														<option>Matte Lipstick</option>
 														<option>Moisturizer</option>
-														<option>Moisturizing Cream</option>
-														<option>Remover</option>
-
-
 													</select>
-													
-
+	
 													</ul>
 												</div>
 											</div>
@@ -214,13 +202,42 @@
 											<div class="controls">
 												<input data-title="A tooltip for the input" type="text" placeholder="Type something here..." data-original-title="" class="span8 tip" name="detailbrg">
 											</div>
-										</div>
+										</div> 
 										<div class="control-group">
-											<label class="control-label" for="gambar">gambar</label>
+											<label class="control-label" for="gambar">gambar 1</label>
 											<div class="controls">
-											<input type="file" id="gambar" "name="gambar"" accept="image/png, image/jpeg, image/jpg" name="gambar">
+												<input type="file" id="gambar" "name="1"" accept="image/png, image/jpeg, image/jpg" name="gambar">
 											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="gambar">gambar 2</label>
+											<div class="controls">
+												<input type="file" id="gambar" "name="2"" accept="image/png, image/jpeg, image/jpg" name="gambar">
 											</div>
+										</div>
+										
+										<div class="control-group">
+											<label class="control-label" for="gambar">gambar 3</label>
+											<div class="controls">
+												<input type="file" id="gambar" "name="3"" accept="image/png, image/jpeg, image/jpg" name="gambar">
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="gambar">gambar main</label>
+											<div class="controls">
+												<input type="file" id="gambar" "name="main"" accept="image/png, image/jpeg, image/jpg" name="gambar">
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label" for="gambar">gambar scart</label>
+											<div class="controls">
+												<input type="file" id="gambar" "name="scart"" accept="image/png, image/jpeg, image/jpg" name="gambar">
+											</div>
+										</div>
+										
 										<div class="control-group">
 											<label class="control-label" for="basicinput">status</label>
 											<div class="controls">
